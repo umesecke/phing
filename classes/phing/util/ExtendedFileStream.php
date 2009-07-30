@@ -3,7 +3,7 @@
 	include_once 'phing/system/io/PhingFile.php';
 
 	/**
-	 * $Id: ExtendedFileStream.php 325 2007-12-20 15:44:58Z hans $
+	 * $Id: ExtendedFileStream.php 462 2009-07-23 22:02:30Z mrook $
 	 *
 	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,7 +26,7 @@
 	 * Extended file stream wrapper class which auto-creates directories
 	 *
 	 * @author Michiel Rook <michiel.rook@gmail.com>
-	 * @version $Id: ExtendedFileStream.php 325 2007-12-20 15:44:58Z hans $
+	 * @version $Id: ExtendedFileStream.php 462 2009-07-23 22:02:30Z mrook $
 	 * @package phing.util
 	 */
 	class ExtendedFileStream
@@ -39,6 +39,11 @@
 			{
 				stream_wrapper_register("efile", "ExtendedFileStream");
 			}
+		}
+		
+		static function unregisterStream()
+		{
+			stream_wrapper_unregister("efile");
 		}
 		
 		private function createDirectories($path)

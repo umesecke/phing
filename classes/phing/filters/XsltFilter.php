@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  $Id: XsltFilter.php 420 2008-10-26 19:21:39Z alexeyshockov $
+ *  $Id: XsltFilter.php 497 2009-07-30 19:11:13Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -61,6 +61,26 @@ class XsltFilter extends BaseParamFilterReader implements ChainableReader {
     private $html = false;
     
     /**
+     * Whether to resolve entities in the XML document (see 
+     * {@link http://www.php.net/manual/en/class.domdocument.php#domdocument.props.resolveexternals} 
+     * for more details).
+     * 
+     * @var bool
+     * 
+     * @since 2.4
+     */
+    private $resolveDocumentExternals = false;
+    
+    /**
+     * Whether to resolve entities in the stylesheet.
+     * 
+     * @var bool
+     * 
+     * @since 2.4
+     */
+    private $resolveStylesheetExternals = false;
+    
+    /**
      * Create new XSLT Param object, to handle the <param/> nested element.
      * @return XSLTParam
      */
@@ -118,6 +138,46 @@ class XsltFilter extends BaseParamFilterReader implements ChainableReader {
      */
     function getStyle() {
         return $this->xslFile;
+    }
+    
+    /**
+     * Whether to resolve entities in document.
+     * 
+     * @param bool $resolveExternals
+     * 
+     * @since 2.4
+     */
+    function setResolveDocumentExternals($resolveExternals) {
+        $this->resolveDocumentExternals = (bool)$resolveExternals;
+    }
+    
+    /**
+     * @return bool
+     * 
+     * @since 2.4
+     */
+    function getResolveDocumentExternals() {
+        return $this->resolveDocumentExternals;
+    }
+    
+    /**
+     * Whether to resolve entities in stylesheet.
+     * 
+     * @param bool $resolveExternals
+     * 
+     * @since 2.4
+     */
+    function setResolveStylesheetExternals($resolveExternals) {
+        $this->resolveStylesheetExternals = (bool)$resolveExternals;
+    }
+    
+    /**
+     * @return bool
+     * 
+     * @since 2.4
+     */
+    function getResolveStylesheetExternals() {
+        return $this->resolveStylesheetExternals;
     }
     
     /**
@@ -185,8 +245,13 @@ class XsltFilter extends BaseParamFilterReader implements ChainableReader {
                 
         $processor = new XSLTProcessor();
         
-        $xmlDom = new DOMDocument();
-        $xslDom = new DOMDocument();        
+        // Create and setup document.
+        $xmlDom                   = new DOMDocument();
+        $xmlDom->resolveExternals = $this->resolveDocumentExternals;
+        
+        // Create and setup stylesheet.
+        $xslDom                   = new DOMDocument();
+        $xslDom->resolveExternals = $this->resolveStylesheetExternals;
         
         if ($this->html) {            
             $xmlDom->loadHTML($xml);

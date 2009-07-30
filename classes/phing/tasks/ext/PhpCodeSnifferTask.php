@@ -1,6 +1,6 @@
 <?php
 /*
- *	$Id$
+ *	$Id: PhpCodeSnifferTask.php 460 2009-07-21 13:28:21Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -25,6 +25,7 @@ require_once 'phing/Task.php';
  * A PHP code sniffer task. Checking the style of one or more PHP source files.
  *
  * @author	Dirk Thomas <dirk.thomas@4wdmedia.de>
+ * @version $Id: PhpCodeSnifferTask.php 460 2009-07-21 13:28:21Z mrook $
  * @package	phing.tasks.ext
  */
 class PhpCodeSnifferTask extends Task {
@@ -45,7 +46,8 @@ class PhpCodeSnifferTask extends Task {
 
 	// parameters to customize output
 	protected $showSniffs = false;
-	protected $outputFormat = 'default';
+	protected $format = 'default';
+	protected $formatters   = array();
 
 	/**
 	 * File to be performed syntax check on
@@ -180,7 +182,17 @@ class PhpCodeSnifferTask extends Task {
 	 */
 	public function setFormat($format)
 	{
-		$this->outputFormat = $format;
+		$this->format = $format;
+	}
+
+	/**
+	 * Create object for nested formatter element.
+	 * @return CodeSniffer_FormatterElement
+	 */
+	public function createFormatter () {
+    	$num = array_push($this->formatters, 
+        new PhpCodeSnifferTask_FormatterElement());
+	    return $this->formatters[$num-1];
 	}
 
 	/**
@@ -189,6 +201,14 @@ class PhpCodeSnifferTask extends Task {
 	public function main() {
 		if(!isset($this->file) and count($this->filesets) == 0) {
 			throw new BuildException("Missing either a nested fileset or attribute 'file' set");
+		}
+
+		if (count($this->formatters) == 0) {
+		  // turn legacy format attribute into formatter
+		  $fmt = new PhpCodeSnifferTask_FormatterElement();
+		  $fmt->setType($this->format);
+		  $fmt->setUseFile(false);
+		  $this->formatters[] = $fmt;
 		}
 
 		require_once 'PHP/CodeSniffer.php';
@@ -212,9 +232,10 @@ class PhpCodeSnifferTask extends Task {
 				foreach ($files as $file) {
 					$fileList[] = $dir.DIRECTORY_SEPARATOR.$file;
 				}
-			}
+	  		}
 			$codeSniffer->process($fileList, $this->standard, $this->sniffs, $this->noSubdirectories);
 		}
+
 		$this->output($codeSniffer);
 	}
 
@@ -232,33 +253,79 @@ class PhpCodeSnifferTask extends Task {
 			$this->log('The list of used sniffs (#' . count($sniffs) . '): ' . PHP_EOL . $sniffStr, Project::MSG_INFO);
 		}
 
-		switch ($this->outputFormat) {
+		// process output
+		foreach ($this->formatters as $fe) {
+		  $output = '';
+
+		  switch ($fe->getType()) {
 			case 'default':
-				$this->outputCustomFormat($codeSniffer);
-				break;
+			  // default format goes to logs, no buffering
+			  $this->outputCustomFormat($codeSniffer);
+			  $fe->setUseFile(false);
+			  break;
+
 			case 'xml':
-				$codeSniffer->printXMLErrorReport($this->showWarnings);
-				break;
+			  ob_start();
+			  $codeSniffer->printXMLErrorReport($this->showWarnings);
+			  $output = ob_get_contents();
+			  ob_end_clean();
+			  break;
+
 			case 'checkstyle':
-				$codeSniffer->printCheckstyleErrorReport($this->showWarnings);
-				break;
+			  ob_start();
+			  $codeSniffer->printCheckstyleErrorReport($this->showWarnings);
+			  $output = ob_get_contents();
+			  ob_end_clean();
+			  break;
+
 			case 'csv':
-				$codeSniffer->printCSVErrorReport($this->showWarnings);
-				break;
+			  ob_start();
+			  $codeSniffer->printCSVErrorReport($this->showWarnings);
+			  $output = ob_get_contents();
+			  ob_end_clean();
+			  break;
+
 			case 'report':
-				$codeSniffer->printErrorReport($this->showWarnings);
-				break;
+			  ob_start();
+			  $codeSniffer->printErrorReport($this->showWarnings);
+			  $output = ob_get_contents();
+			  ob_end_clean();
+			  break;
+
 			case 'summary':
-				$codeSniffer->printErrorReportSummary($this->showWarnings);
-				break;
+			  ob_start();
+			  $codeSniffer->printErrorReportSummary($this->showWarnings);
+			  $output = ob_get_contents();
+			  ob_end_clean();
+			  break;
+
 			case 'doc':
-				$codeSniffer->generateDocs($this->standard, $this->sniffs);
-				break;
+			  ob_start();
+			  $codeSniffer->generateDocs($this->standard, $this->sniffs);
+			  $output = ob_get_contents();
+			  ob_end_clean();
+			  break;
+
 			default:
-				$this->log('Unknown output format "' . $this->outputFormat . '"', Project::MSG_INFO);
-				break;
-		}
-	}
+			  $this->log('Unknown output format "' . $fe->getType() . '"', Project::MSG_INFO);
+			  continue; //skip to next formatter in list
+			  break;
+		  } //end switch
+
+				if (!$fe->getUseFile()) {
+			// output raw to console
+			echo $output;
+
+				} else {
+				  // write to file
+				  $outputFile = $fe->getOutfile();
+				  $check = file_put_contents($outputFile, $output);
+			if (is_bool($check) && !$check) {
+			  throw new BuildException('Error writing output to ' . $outputFile);
+			}
+				}
+		} //end foreach
+	} //end output
 
 	/**
 	 * Outputs the results with a custom format
@@ -323,4 +390,63 @@ class PhpCodeSnifferTask extends Task {
 		}
 	}
 
-}
+} //end phpCodeSnifferTask
+
+class PhpCodeSnifferTask_FormatterElement extends DataType {
+
+  /**
+   * Type of output to generate
+   * @var string
+   */
+  protected $type      = "";
+
+  /**
+   * Output to file?
+   * @var bool
+   */
+  protected $useFile   = true;
+
+  /**
+   * Output file.
+   * @var string
+   */
+  protected $outfile   = "";
+
+  /**
+   * Validate config.
+   */
+  public function parsingComplete () {
+		if(empty($this->type)) {
+			throw new BuildException("Format missing required 'type' attribute.");
+    }
+    if ($useFile && empty($this->outfile)) {
+      throw new BuildException("Format requres 'outfile' attribute when 'useFile' is true.");
+    } 
+
+  }
+
+  public function setType ($type)  {
+    $this->type = $type;
+  }
+
+  public function getType () {
+    return $this->type;
+  }
+
+  public function setUseFile ($useFile) {
+    $this->useFile = $useFile;
+  }
+  
+  public function getUseFile () {
+    return $this->useFile;
+  }
+  
+  public function setOutfile ($outfile) {
+    $this->outfile = $outfile;
+  }
+  
+  public function getOutfile () {
+    return $this->outfile;
+  }
+  
+} //end FormatterElement

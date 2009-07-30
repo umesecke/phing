@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: Phing.php 385 2008-08-19 18:09:17Z mrook $
+ * $Id: Phing.php 492 2009-07-30 18:22:04Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -1002,7 +1002,7 @@ class Phing {
 				set_include_path(implode(PATH_SEPARATOR, array_merge($new_parts, $curr_parts)));
 			}
 		}
-
+		
 		$ret = include_once($path);
 
 		if ($ret === false) {

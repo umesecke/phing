@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: TypedefTaskTest.php 227 2007-08-28 02:17:00Z hans $
+ *  $Id: TypedefTaskTest.php 369 2008-05-18 17:54:38Z bender $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -45,7 +45,12 @@ class TypedefTaskTest extends BuildFileTest {
     }
 
     public function testClassNotFound() { 
-        $this->expectBuildException("classNotFound", "classname specified doesn't exist");
+        try {
+            $this->executeTarget("classNotFound");
+            $this->fail("Should throw ConfigurationException because: " . 
+              "classname specified doesn't exist");
+        } catch (ConfigurationException $ignored) {
+        }
     }
 
     public function testGlobal() {

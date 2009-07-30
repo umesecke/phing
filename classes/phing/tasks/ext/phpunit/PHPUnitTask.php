@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: PHPUnitTask.php 427 2008-10-28 19:34:15Z mrook $
+ * $Id: PHPUnitTask.php 492 2009-07-30 18:22:04Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -25,10 +25,10 @@ require_once 'phing/system/io/Writer.php';
 require_once 'phing/util/LogWriter.php';
 
 /**
- * Runs PHPUnit2/3 tests.
+ * Runs PHPUnit tests.
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: PHPUnitTask.php 427 2008-10-28 19:34:15Z mrook $
+ * @version $Id: PHPUnitTask.php 492 2009-07-30 18:22:04Z mrook $
  * @package phing.tasks.ext.phpunit
  * @see BatchTest
  * @since 2.1.0
@@ -47,6 +47,7 @@ class PHPUnitTask extends Task
 	private $skippedproperty;
 	private $printsummary = false;
 	private $testfailed = false;
+	private $testfailuremessage = "";
 	private $codecoverage = false;
 	private $groups = array();
 	private $excludeGroups = array();
@@ -58,42 +59,23 @@ class PHPUnitTask extends Task
 	 * because we may want this class to be loaded w/o triggering an error.
 	 */
 	function init() {
-		if (version_compare(PHP_VERSION, '5.0.3') < 0) {
-		    throw new BuildException("PHPUnit2Task requires PHP version >= 5.0.3.", $this->getLocation());
+		if (version_compare(PHP_VERSION, '5.0.3') < 0)
+		{
+		    throw new BuildException("PHPUnitTask requires PHP version >= 5.0.3", $this->getLocation());
 		}
 		
 		/**
 		 * Determine PHPUnit version number
 		 */
 		@include_once 'PHPUnit/Runner/Version.php';
-		@include_once 'PHPUnit2/Runner/Version.php';
 
-		if (class_exists('PHPUnit_Runner_Version'))
+		$version = PHPUnit_Runner_Version::id();
+
+		if (version_compare($version, '3.2.0') < 0)
 		{
-			$version = PHPUnit_Runner_Version::id();
+			throw new BuildException("PHPUnitTask requires PHPUnit version >= 3.2.0", $this->getLocation());
 		}
-		elseif (class_exists('PHPUnit2_Runner_Version'))
-		{
-			$version = PHPUnit2_Runner_Version::id();
-		}
-		else
-		{
-			throw new BuildException("PHPUnit task depends on PHPUnit 2 or 3 package being installed.", $this->getLocation());
-		}
-		
-		if (version_compare($version, "3.0.0") >= 0)
-		{
-			PHPUnitUtil::$installedVersion = 3;
-			if (version_compare($version, "3.2.0") >= 0)
-			{
-				PHPUnitUtil::$installedMinorVersion = 2;
-			}
-		}
-		else
-		{
-			PHPUnitUtil::$installedVersion = 2;
-		}
-		
+			
 		/**
 		 * Other dependencies that should only be loaded when class is actually used.
 		 */
@@ -106,35 +88,21 @@ class PHPUnitTask extends Task
 		 */
 		$pwd = dirname(__FILE__);
 
-		if (PHPUnitUtil::$installedVersion == 3)
+		require_once 'PHPUnit/Framework.php';
+		require_once 'PHPUnit/Util/Filter.php';
+			
+		// point PHPUnit_MAIN_METHOD define to non-existing method
+		if (!defined('PHPUnit_MAIN_METHOD'))
 		{
-			require_once 'PHPUnit/Framework.php';
-			require_once 'PHPUnit/Util/Filter.php';
-			
-			// point PHPUnit_MAIN_METHOD define to non-existing method
-			if (!defined('PHPUnit_MAIN_METHOD')) {
-				define('PHPUnit_MAIN_METHOD', 'PHPUnitTask::undefined');
-			}
-			
-			PHPUnit_Util_Filter::addFileToFilter($pwd . '/PHPUnitTask.php', 'PHING');
-			PHPUnit_Util_Filter::addFileToFilter($pwd . '/PHPUnitTestRunner.php', 'PHING');
-			PHPUnit_Util_Filter::addFileToFilter($pwd . '/../../../Task.php', 'PHING');
-			PHPUnit_Util_Filter::addFileToFilter($pwd . '/../../../Target.php', 'PHING');
-			PHPUnit_Util_Filter::addFileToFilter($pwd . '/../../../Project.php', 'PHING');
-			PHPUnit_Util_Filter::addFileToFilter($pwd . '/../../../Phing.php', 'PHING');
+			define('PHPUnit_MAIN_METHOD', 'PHPUnitTask::undefined');
 		}
-		else
-		{
-			require_once 'PHPUnit2/Framework.php';
-			require_once 'PHPUnit2/Util/Filter.php';
 			
-			PHPUnit2_Util_Filter::addFileToFilter($pwd . '/PHPUnitTask.php');
-			PHPUnit2_Util_Filter::addFileToFilter($pwd . '/PHPUnitTestRunner.php');
-			PHPUnit2_Util_Filter::addFileToFilter($pwd . '/../../../Task.php');
-			PHPUnit2_Util_Filter::addFileToFilter($pwd . '/../../../Target.php');
-			PHPUnit2_Util_Filter::addFileToFilter($pwd . '/../../../Project.php');
-			PHPUnit2_Util_Filter::addFileToFilter($pwd . '/../../../Phing.php');
-		}
+		PHPUnit_Util_Filter::addFileToFilter($pwd . '/PHPUnitTask.php');
+		PHPUnit_Util_Filter::addFileToFilter($pwd . '/PHPUnitTestRunner.php');
+		PHPUnit_Util_Filter::addFileToFilter($pwd . '/../../../Task.php');
+		PHPUnit_Util_Filter::addFileToFilter($pwd . '/../../../Target.php');
+		PHPUnit_Util_Filter::addFileToFilter($pwd . '/../../../Project.php');
+		PHPUnit_Util_Filter::addFileToFilter($pwd . '/../../../Phing.php');
 	}
 	
 	function setErrorproperty($value)
@@ -189,10 +157,6 @@ class PHPUnitTask extends Task
 
 	function setGroups($groups)
 	{
-		if (PHPUnitUtil::$installedVersion < 3 || (PHPUnitUtil::$installedVersion == 3 && PHPUnitUtil::$installedMinorVersion < 2))
-		{
-			$this->log("The 'groups' attribute is only available with PHPUnit 3.2.0 or newer", Project::MSG_WARN);
-		}
 		$token = ' ,;';
 		$this->groups = array();
 		$tok = strtok($groups, $token);
@@ -204,10 +168,6 @@ class PHPUnitTask extends Task
 
 	function setExcludeGroups($excludeGroups)
 	{
-		if (PHPUnitUtil::$installedVersion < 3 || (PHPUnitUtil::$installedVersion == 3 && PHPUnitUtil::$installedMinorVersion < 2))
-		{
-			$this->log("The 'excludeGroups' attribute is only available with PHPUnit 3.2.0 or newer", Project::MSG_WARN);
-		}
 		$token = ' ,;';
 		$this->excludeGroups = array();
 		$tok = strtok($groups, $token);
@@ -251,7 +211,7 @@ class PHPUnitTask extends Task
 		
 		foreach ($this->formatters as $fe)
 		{
-			$formatter = $fe->getFormatter();			
+			$formatter = $fe->getFormatter();
 			$formatter->setProject($this->getProject());
 
 			if ($fe->getUseFile())
@@ -272,34 +232,7 @@ class PHPUnitTask extends Task
 		
 		foreach ($tests as $test)
 		{
-			$suite = NULL;
-			
-			if ((PHPUnitUtil::$installedVersion == 3 && is_subclass_of($test, 'PHPUnit_Framework_TestSuite')) || (PHPUnitUtil::$installedVersion == 2 && is_subclass_of($test, 'PHPUnit2_Framework_TestSuite')))
-			{
-				if (is_object($test))
-				{
-					$suite = $test;
-				}
-				else
-				{
-					$suite = new $test();
-				}
-			}
-			else
-			{
-				if (PHPUnitUtil::$installedVersion == 3)
-				{
-					require_once 'PHPUnit/Framework/TestSuite.php';
-					$suite = new PHPUnit_Framework_TestSuite(new ReflectionClass($test));
-				}
-				else
-				{
-					require_once 'PHPUnit2/Framework/TestSuite.php';
-					$suite = new PHPUnit2_Framework_TestSuite(new ReflectionClass($test));
-				}
-			}
-			
-			$this->execute($suite);
+			$this->execute($test);
 		}
 
 		foreach ($this->formatters as $fe)
@@ -310,16 +243,16 @@ class PHPUnitTask extends Task
 		
 		if ($this->testfailed)
 		{
-			throw new BuildException("One or more tests failed");
+			throw new BuildException($this->testfailuremessage);
 		}
 	}
 
 	/**
 	 * @throws BuildException
 	 */
-	private function execute($suite)
+	private function execute($test)
 	{
-		$runner = new PHPUnitTestRunner($suite, $this->project, $this->groups, $this->excludeGroups);
+		$runner = new PHPUnitTestRunner($this->project, $this->groups, $this->excludeGroups);
 		
 		$runner->setCodecoverage($this->codecoverage);
 
@@ -327,10 +260,24 @@ class PHPUnitTask extends Task
 		{
 			$formatter = $fe->getFormatter();
 
-			$runner->addFormatter($formatter);
+			$runner->addFormatter($formatter);		
 		}
-
-		$runner->run();
+		
+		/* Invoke the 'suite' method when it exists in the test class */
+		$testClass = new ReflectionClass($test);
+		
+		if ($testClass->hasMethod('suite'))
+		{
+			$suiteMethod = $testClass->getMethod('suite');
+			
+			$suite = $suiteMethod->invoke(NULL, $testClass->getName());
+		}
+		else
+		{
+			$suite = new PHPUnit_Framework_TestSuite($test);
+		}
+		
+		$runner->run($suite);
 
 		$retcode = $runner->getRetCode();
 		
@@ -340,6 +287,7 @@ class PHPUnitTask extends Task
 			}
 			if ($this->haltonerror) {
 			    $this->testfailed = true;
+			    $this->testfailuremessage = $runner->getLastFailureMessage();
 			}
 		} elseif ($retcode == PHPUnitTestRunner::FAILURES) {
 			if ($this->failureproperty) {
@@ -348,6 +296,7 @@ class PHPUnitTask extends Task
 			
 			if ($this->haltonfailure) {
 				$this->testfailed = true;
+				$this->testfailuremessage = $runner->getLastFailureMessage();
 			}
 		} elseif ($retcode == PHPUnitTestRunner::INCOMPLETES) {
 			if ($this->incompleteproperty) {
@@ -356,6 +305,7 @@ class PHPUnitTask extends Task
 			
 			if ($this->haltonincomplete) {
 				$this->testfailed = true;
+				$this->testfailuremessage = $runner->getLastFailureMessage();
 			}
 		} elseif ($retcode == PHPUnitTestRunner::SKIPPED) {
 			if ($this->skippedproperty) {
@@ -364,6 +314,7 @@ class PHPUnitTask extends Task
 			
 			if ($this->haltonskipped) {
 				$this->testfailed = true;
+				$this->testfailuremessage = $runner->getLastFailureMessage();
 			}
 		}
 	}

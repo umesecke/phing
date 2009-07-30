@@ -1,7 +1,7 @@
 <?php
 
 	/**
-	 * $Id: LogWriter.php 325 2007-12-20 15:44:58Z hans $
+	 * $Id: LogWriter.php 372 2008-05-28 04:27:04Z bender $
 	 *
 	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@
 	 * Extends the Writer class to output messages to Phing's log
 	 *
 	 * @author Michiel Rook <michiel.rook@gmail.com>
-	 * @version $Id: LogWriter.php 325 2007-12-20 15:44:58Z hans $
+	 * @version $Id: LogWriter.php 372 2008-05-28 04:27:04Z bender $
 	 * @package phing.util
 	 */
 	class LogWriter extends Writer

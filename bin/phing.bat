@@ -2,7 +2,7 @@
 
 rem *********************************************************************
 rem ** the phing build script for Windows based systems
-rem ** $Id: phing.bat 384 2008-08-19 17:56:05Z mrook $
+rem ** $Id: phing.bat 390 2008-10-06 14:41:37Z mrook $
 rem *********************************************************************
 
 rem This script will do the following:

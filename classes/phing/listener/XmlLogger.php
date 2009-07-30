@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: XmlLogger.php 291 2007-11-04 15:23:03Z hans $
+ * $Id: XmlLogger.php 455 2009-07-21 10:06:26Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -30,7 +30,7 @@ require_once 'phing/system/util/Timer.php';
  * with the property <code>XmlLogger.file</code>.
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: XmlLogger.php 291 2007-11-04 15:23:03Z hans $
+ * @version $Id: XmlLogger.php 455 2009-07-21 10:06:26Z mrook $
  * @package phing.listener
  */	
 class XmlLogger implements BuildLogger {
@@ -289,7 +289,16 @@ class XmlLogger implements BuildLogger {
 		
 		$messageElement->setAttribute(XmlLogger::PRIORITY_ATTR, $name);
 		
-		$messageText = $this->doc->createCDATASection($event->getMessage());
+		if (function_exists('mb_convert_encoding'))
+		{
+			$messageConverted = mb_convert_encoding($event->getMessage(), 'UTF-8');
+		}
+		else
+		{
+			$messageConverted = utf8_encode($event->getMessage());
+		}
+		
+		$messageText = $this->doc->createCDATASection($messageConverted);
 		
 		$messageElement->appendChild($messageText);
 		

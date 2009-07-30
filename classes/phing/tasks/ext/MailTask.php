@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: MailTask.php 43 2006-03-10 14:31:51Z mrook $
+ *  $Id: MailTask.php 488 2009-07-30 15:04:51Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@ include_once 'phing/Task.php';
  *  <mail to="user@example.org" subject="build complete">The build process is a success...</mail> 
  * 
  *  @author   Francois Harvey at SecuriWeb (http://www.securiweb.net)
- *  @version  $Revision: 1.1 $
+ *  @version  $Id: MailTask.php 488 2009-07-30 15:04:51Z mrook $
  *  @package  phing.tasks.ext
  */
 class MailTask extends Task {

@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Location.php 123 2006-09-14 20:19:08Z mrook $
+ *  $Id: Location.php 368 2008-05-18 17:21:02Z bender $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -24,7 +24,7 @@
  *
  * @author      Andreas Aderhold <andi@binarycloud.com>
  * @copyright © 2001,2002 THYRELL. All rights reserved
- * @version   $Revision: 1.6 $ $Date: 2006-09-14 16:19:08 -0400 (Thu, 14 Sep 2006) $
+ * @version   $Revision: 1.6 $ $Date: 2008-05-18 19:21:02 +0200 (So, 18. Mai 2008) $
  * @access    public
  * @package   phing.parser
  */
@@ -68,5 +68,9 @@ class Location {
             $buf.=":".$this->columnNumber;
         }
         return (string) $buf;
+    }
+
+    function __toString () {
+      return $this->toString();
     }
 }

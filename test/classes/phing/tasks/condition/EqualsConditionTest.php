@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  $Id: EqualsConditionTest.php 123 2006-09-14 20:19:08Z mrook $
+ *  $Id: EqualsConditionTest.php 446 2009-07-17 11:39:29Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,7 +20,7 @@
  * <http://phing.info>.
  */
 
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 include_once 'phing/tasks/system/condition/EqualsCondition.php';
 
 /**
@@ -30,7 +30,7 @@ include_once 'phing/tasks/system/condition/EqualsCondition.php';
  * @author Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
  * @version $Revision: 1.4 $
  */
-class EqualsConditionTest extends PHPUnit2_Framework_TestCase {
+class EqualsConditionTest extends PHPUnit_Framework_TestCase {
 
     public function testTrim() {
         $eq = new EqualsCondition();

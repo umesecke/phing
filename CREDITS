@@ -8,6 +8,8 @@
   David Giffin <david@giffin.org>
   Michiel Rook <michiel.rook@gmail.com>
   Sebastian Bergmann <sb@sebastian-bergmann.de>
+  Bryan Davis <bender@casadebender.com>
+  Alexey Shockov <alexey@shockov.com>
 
   If you've done work on phing and you are not listed here, please feel free
   to add yourself.
@@ -42,4 +44,4 @@
   (c) Josh Barger <joshb@npt.com>
   http://phpclasses.upperdesign.com/browse.html/package/529.html
 
-  --$Id: CREDITS 123 2006-09-14 20:19:08Z mrook $
+  --$Id: CREDITS 389 2008-09-26 17:38:05Z alexeyshockov $

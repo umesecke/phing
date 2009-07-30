@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: PHPUnitReportTask.php 325 2007-12-20 15:44:58Z hans $
+ * $Id: PHPUnitReportTask.php 462 2009-07-23 22:02:30Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -25,14 +25,14 @@ require_once 'phing/system/io/FileWriter.php';
 require_once 'phing/util/ExtendedFileStream.php';
 
 /**
- * Transform a PHPUnit2 xml report using XSLT.
+ * Transform a PHPUnit xml report using XSLT.
  * This transformation generates an html report in either framed or non-framed
  * style. The non-framed style is convenient to have a concise report via mail, 
  * the framed report is much more convenient if you want to browse into 
  * different packages or testcases since it is a Javadoc like report.
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: PHPUnitReportTask.php 325 2007-12-20 15:44:58Z hans $
+ * @version $Id: PHPUnitReportTask.php 462 2009-07-23 22:02:30Z mrook $
  * @package phing.tasks.ext.phpunit
  * @since 2.1.0
  */
@@ -83,8 +83,8 @@ class PHPUnitReportTask extends Task
 	 */
 	private function getStyleSheet()
 	{
-		$xslname = "phpunit2-" . $this->format . ".xsl";
-
+		$xslname = "phpunit-" . $this->format . ".xsl";
+		
 		if ($this->styleDir)
 		{
 			$file = new PhingFile($this->styleDir, $xslname);
@@ -136,7 +136,7 @@ class PHPUnitReportTask extends Task
 
 		if ($this->format == "noframes")
 		{
-			$writer = new FileWriter(new PhingFile($this->toDir, "phpunit2-noframes.html"));
+			$writer = new FileWriter(new PhingFile($this->toDir, "phpunit-noframes.html"));
 			$writer->write($proc->transformToXML($document));
 			$writer->close();
 		}
@@ -147,8 +147,10 @@ class PHPUnitReportTask extends Task
 			// no output for the framed report
 			// it's all done by extension...
 			$dir = new PhingFile($this->toDir);
-			$proc->setParameter('', 'output.dir', $dir->getAbsolutePath());
+			$proc->setParameter('', 'output.dir', $dir->toString());
 			$proc->transformToXML($document);
+			
+			ExtendedFileStream::unregisterStream();
 		}
 	}
 	

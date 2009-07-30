@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  $Id: ReplaceTokens.php 325 2007-12-20 15:44:58Z hans $  
+ *  $Id: ReplaceTokens.php 391 2008-10-06 15:49:21Z mrook $  
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -43,7 +43,7 @@ include_once 'phing/filters/ChainableReader.php';
  *
  * @author    <a href="mailto:yl@seasonfive.com">Yannick Lecaillez</a>
  * @author    hans lellelid, hans@velum.net
- * @version   $Revision: 1.14 $ $Date: 2007-12-20 10:44:58 -0500 (Thu, 20 Dec 2007) $
+ * @version   $Revision: 1.14 $ $Date: 2008-10-06 17:49:21 +0200 (Mo, 06. Okt 2008) $
  * @access    public
  * @see       BaseParamFilterReader
  * @package   phing.filters
@@ -409,6 +409,15 @@ class Token {
      */
     function getValue() {
         return $this->_value;
+    }
+
+    /**
+     * Sets the token value from text.
+     *
+     * @param string $value The value for this token. Must not be <code>null</code>.
+     */
+    function addText($value) {
+        $this->setValue($value);
     }
 }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: CoverageReportTransformer.php 325 2007-12-20 15:44:58Z hans $
+ * $Id: CoverageReportTransformer.php 462 2009-07-23 22:02:30Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,7 +29,7 @@ require_once 'phing/util/ExtendedFileStream.php';
  * The default transformation generates an html report in framed style.
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: CoverageReportTransformer.php 325 2007-12-20 15:44:58Z hans $
+ * @version $Id: CoverageReportTransformer.php 462 2009-07-23 22:02:30Z mrook $
  * @package phing.tasks.ext.coverage
  * @since 2.1.0
  */
@@ -81,8 +81,10 @@ class CoverageReportTransformer
 
 		// no output for the framed report
 		// it's all done by extension...
-		$proc->setParameter('', 'output.dir', $dir->getAbsolutePath());
+		$proc->setParameter('', 'output.dir', $dir->toString());
 		$proc->transformToXML($this->document);
+		
+		ExtendedFileStream::unregisterStream();
 	}
 
 	private function getStyleSheet()

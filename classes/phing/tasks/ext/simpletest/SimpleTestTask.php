@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: SimpleTestTask.php 325 2007-12-20 15:44:58Z hans $
+ * $Id: SimpleTestTask.php 476 2009-07-29 17:24:51Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -28,7 +28,7 @@ require_once 'phing/util/LogWriter.php';
  * Runs SimpleTest tests.
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: SimpleTestTask.php 325 2007-12-20 15:44:58Z hans $
+ * @version $Id: SimpleTestTask.php 476 2009-07-29 17:24:51Z mrook $
  * @package phing.tasks.ext.simpletest
  * @since 2.2.0
  */
@@ -41,6 +41,7 @@ class SimpleTestTask extends Task
 	private $errorproperty;
 	private $printsummary = false;
 	private $testfailed = false;
+	private $debug = false;
 
 	/**
 	 * Initialize Task.
@@ -59,6 +60,7 @@ class SimpleTestTask extends Task
 		require_once 'simpletest/xml.php';
 		require_once 'simpletest/test_case.php';
 		require_once 'phing/tasks/ext/simpletest/SimpleTestCountResultFormatter.php';
+		require_once 'phing/tasks/ext/simpletest/SimpleTestDebugResultFormatter.php';
 		require_once 'phing/tasks/ext/simpletest/SimpleTestFormatterElement.php';
 	}
 	
@@ -86,6 +88,16 @@ class SimpleTestTask extends Task
 	{
 		$this->printsummary = $printsummary;
 	}
+
+	public function setDebug($debug)
+	{
+		$this->debug = $debug;
+	}
+
+	public function getDebug()
+	{
+		return $this->debug;
+	}	
 	
 	/**
 	 * Add a new formatter to all tests of this task.
@@ -152,6 +164,14 @@ class SimpleTestTask extends Task
 			$group->addTestFile($testfile);
 		}
 		
+		if ($this->debug)
+		{
+			$fe = new SimpleTestFormatterElement();
+			$fe->setType('debug');
+			$fe->setUseFile(false);
+			$this->formatters[] = $fe;
+		}
+		
 		if ($this->printsummary)
 		{
 			$fe = new SimpleTestFormatterElement();
@@ -180,6 +200,12 @@ class SimpleTestTask extends Task
 		}
 		
 		$this->execute($group);
+		
+		if ($this->testfailed && $this->formatters[0]->getFormatter() instanceof SimpleTestDebugResultFormatter )
+		{
+			$this->getDefaultOutput()->write("Failed tests: ");
+			$this->formatters[0]->getFormatter()->printFailingTests();
+		}
 		
 		if ($this->testfailed)
 		{

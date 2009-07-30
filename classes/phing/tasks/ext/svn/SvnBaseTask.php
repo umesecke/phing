@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: SvnBaseTask.php 329 2007-12-22 17:12:59Z mrook $
+ *  $Id: SvnBaseTask.php 482 2009-07-30 09:22:58Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,7 +26,7 @@ include_once 'phing/Task.php';
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
  * @author Andrew Eddie <andrew.eddie@jamboworks.com> 
- * @version $Id: SvnBaseTask.php 329 2007-12-22 17:12:59Z mrook $
+ * @version $Id: SvnBaseTask.php 482 2009-07-30 09:22:58Z mrook $
  * @package phing.tasks.ext.svn
  * @see VersionControl_SVN
  * @since 2.2.0
@@ -242,10 +242,12 @@ abstract class SvnBaseTask extends Task
 		
 		// Set up runtime options. Will be passed to all
 		// subclasses.
-		$options = array('fetchmode' => VERSIONCONTROL_SVN_FETCHMODE_ASSOC, 'svn_path' => $this->getSvnPath());
+		$options = array('fetchmode' => VERSIONCONTROL_SVN_FETCHMODE_ASSOC, 'svn_path' => '"' . $this->getSvnPath() . '"');
 		
 		// Pass array of subcommands we need to factory
 		$this->svn = VersionControl_SVN::factory($mode, $options);
+				
+		$this->svn->use_escapeshellcmd = false;
 
 		if (!empty($this->repositoryUrl))
 		{
@@ -312,8 +314,8 @@ abstract class SvnBaseTask extends Task
 			if (count($errs = $svnstack->getErrors()))
 			{
 				$err = current($errs);
-
-				throw new BuildException("Failed to run the 'svn " . $this->mode . "' command: " . $err['message']);
+				
+				throw new BuildException("Failed to run the 'svn " . $this->mode . "' command: " . $err['params']['errstr']);
 			}
 		}
 	}

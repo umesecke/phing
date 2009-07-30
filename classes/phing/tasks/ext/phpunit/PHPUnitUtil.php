@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: PHPUnitUtil.php 325 2007-12-20 15:44:58Z hans $
+ * $Id: PHPUnitUtil.php 448 2009-07-17 12:22:49Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -23,22 +23,12 @@
  * Various utility functions
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: PHPUnitUtil.php 325 2007-12-20 15:44:58Z hans $
+ * @version $Id: PHPUnitUtil.php 448 2009-07-17 12:22:49Z mrook $
  * @package phing.tasks.ext.phpunit
  * @since 2.1.0
  */
 class PHPUnitUtil
 {
-	/**
-	 * Installed PHPUnit major version
-	 */
-	public static $installedVersion = 2;
-	
-	/**
-	 * Installed PHPUnit minor version
-	 */
-	public static $installedMinorVersion = 0;
-	
 	protected static $definedClasses = array();
 	
 	/**

@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: DirectoryScanner.php 277 2007-11-01 01:25:23Z hans $
+ *  $Id: DirectoryScanner.php 461 2009-07-21 13:36:53Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -409,7 +409,7 @@ class DirectoryScanner implements SelectorScanner {
     function listDir($_dir) {
         $d = dir($_dir);
         $list = array();
-        while($entry = $d->read()) {
+        while(($entry = $d->read()) !== false) {
             if ($entry != "." && $entry != "..") {
                 $list[] = $entry;
             }

@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id$
+ *  $Id: JslLintTask.php 488 2009-07-30 15:04:51Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,6 +27,8 @@ require_once 'phing/Task.php';
   * This class is based on Knut Urdalen's PhpLintTask.
   *
   * @author Stefan Priebsch <stefan.priebsch@e-novative.de>
+  * @version $Id: JslLintTask.php 488 2009-07-30 15:04:51Z mrook $
+  * @package phing.tasks.ext
   */
   class JslLintTask extends Task
   {

@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: PearPackageTask.php 144 2007-02-05 15:19:00Z hans $
+ *  $Id: PearPackageTask.php 488 2009-07-30 15:04:51Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -74,7 +74,7 @@ include_once 'phing/types/FileSet.php';
  * 
  * @author   Hans Lellelid <hans@xmpl.org>
  * @package  phing.tasks.ext
- * @version  $Revision: 1.9 $
+ * @version  $Id: PearPackageTask.php 488 2009-07-30 15:04:51Z mrook $
  */
 class PearPackageTask extends MatchingTask {
     

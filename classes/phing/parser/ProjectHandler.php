@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: ProjectHandler.php 132 2007-01-25 19:38:05Z mrook $
+ * $Id: ProjectHandler.php 368 2008-05-18 17:21:02Z bender $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -28,7 +28,7 @@ require_once 'phing/system/io/PhingFile.php';
  *
  * @author      Andreas Aderhold <andi@binarycloud.com>
  * @copyright (c) 2001,2002 THYRELL. All rights reserved
- * @version   $Revision: 1.14 $ $Date: 2007-01-25 14:38:05 -0500 (Thu, 25 Jan 2007) $
+ * @version   $Revision: 1.14 $ $Date: 2008-05-18 19:21:02 +0200 (So, 18. Mai 2008) $
  * @access    public
  * @package   phing.parser
  */
@@ -89,38 +89,50 @@ class ProjectHandler extends AbstractHandler {
                 throw new ExpatParseException("Unexpected attribute '$key'");
             }
         }
-        if ($def === null) {
-            throw new ExpatParseException("The default attribute of project is required");
+        // these things get done no matter what
+        if (null != $name) {
+          $canonicalName = self::canonicalName($name);
+          $this->configurator->setCurrentProjectName($canonicalName);
+          $project->setUserProperty("phing.file.{$canonicalName}",
+              (string) $this->configurator->getBuildFile());
         }
-        $project->setDefaultTarget($def);
 
-        if ($name !== null) {
+        if (!$this->configurator->isIgnoringProjectTag()) {
+          if ($def === null) {
+            throw new ExpatParseException(
+                "The default attribute of project is required");
+          }
+          $project->setDefaultTarget($def);
+
+          if ($name !== null) {
             $project->setName($name);
             $project->addReference($name, $project);
-        }
 
-        if ($id !== null) {
+          }
+
+          if ($id !== null) {
             $project->addReference($id, $project);
-        }
-        
-        if ($desc !== null) {
-            $project->setDescription($desc);
-        }        
+          }
 
-        if ($project->getProperty("project.basedir") !== null) {
+          if ($desc !== null) {
+            $project->setDescription($desc);
+          }        
+
+          if ($project->getProperty("project.basedir") !== null) {
             $project->setBasedir($project->getProperty("project.basedir"));
-        } else {
+          } else {
             if ($baseDir === null) {
-                $project->setBasedir($buildFileParent->getAbsolutePath());
+              $project->setBasedir($buildFileParent->getAbsolutePath());
             } else {
-                // check whether the user has specified an absolute path
-                $f = new PhingFile($baseDir);
-                if ($f->isAbsolute()) {
-                    $project->setBasedir($baseDir);
-                } else {
-                    $project->setBaseDir($project->resolveFile($baseDir, $buildFileParent));
-                }
+              // check whether the user has specified an absolute path
+              $f = new PhingFile($baseDir);
+              if ($f->isAbsolute()) {
+                $project->setBasedir($baseDir);
+              } else {
+                $project->setBaseDir($project->resolveFile($baseDir, $buildFileParent));
+              }
             }
+          }
         }
     }
 
@@ -148,6 +160,10 @@ class ProjectHandler extends AbstractHandler {
 			$tf = new TaskHandler($this->parser, $this, $this->configurator);
 			$tf->init($name, $attrs);
         }
+    }
+
+    static function canonicalName ($name) {
+      return preg_replace('/\W/', '_', strtolower($name));
     }
 }
 

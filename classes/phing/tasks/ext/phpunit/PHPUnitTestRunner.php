@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: PHPUnitTestRunner.php 361 2008-03-08 09:36:07Z mrook $
+ * $Id: PHPUnitTestRunner.php 492 2009-07-30 18:22:04Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -19,19 +19,21 @@
  * <http://phing.info>.
  */
 
+require_once 'PHPUnit/Framework/TestSuite.php';
+require_once 'PHPUnit/Util/ErrorHandler.php';
+require_once 'PHPUnit/Util/Filter.php';
 require_once 'phing/tasks/ext/coverage/CoverageMerger.php';
-
 require_once 'phing/system/util/Timer.php';
 
 /**
- * Simple Testrunner for PHPUnit2/3 that runs all tests of a testsuite.
+ * Simple Testrunner for PHPUnit that runs all tests of a testsuite.
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: PHPUnitTestRunner.php 361 2008-03-08 09:36:07Z mrook $
+ * @version $Id: PHPUnitTestRunner.php 492 2009-07-30 18:22:04Z mrook $
  * @package phing.tasks.ext.phpunit
  * @since 2.1.0
  */
-class PHPUnitTestRunner
+class PHPUnitTestRunner extends PHPUnit_Runner_BaseTestRunner
 {
 	const SUCCESS = 0;
 	const FAILURES = 1;
@@ -39,9 +41,8 @@ class PHPUnitTestRunner
 	const INCOMPLETES = 3;
 	const SKIPPED = 4;
 
-	private $test = NULL;
-	private $suite = NULL;
 	private $retCode = 0;
+	private $lastFailureMessage = "";
 	private $formatters = array();
 	
 	private $codecoverage = false;
@@ -51,9 +52,8 @@ class PHPUnitTestRunner
 	private $groups = array();
 	private $excludeGroups = array();
 
-	function __construct($suite, Project $project, $groups = array(), $excludeGroups = array())
+	function __construct(Project $project, $groups = array(), $excludeGroups = array())
 	{
-		$this->suite = $suite;
 		$this->project = $project;
 		$this->groups = $groups;
 		$this->excludeGroups = $excludeGroups;
@@ -69,48 +69,49 @@ class PHPUnitTestRunner
 	{
 		$this->formatters[] = $formatter;
 	}
-
-	function run()
+	
+	public static function handleError($level, $message, $file, $line)
 	{
-		$res = NULL;
-		
-		if (PHPUnitUtil::$installedVersion == 3)
+		if (!PHPUnit_Util_Filter::isFiltered($file, true, true))
 		{
-			require_once 'PHPUnit/Framework/TestSuite.php';			
-			$res = new PHPUnit_Framework_TestResult();
+			return PHPUnit_Util_ErrorHandler::handleError($level, $message, $file, $line);
 		}
-		else
-		{
-			require_once 'PHPUnit2/Framework/TestSuite.php';
-			$res = new PHPUnit2_Framework_TestResult();
-		}
+	}
+	
+	/**
+	 * Run a test
+	 */
+	function run($test)
+	{
+		$res = new PHPUnit_Framework_TestResult();
 
 		if ($this->codecoverage)
 		{
 			$res->collectCodeCoverageInformation(TRUE);
 		}
+		
+		$res->addListener($this);
 
 		foreach ($this->formatters as $formatter)
 		{
 			$res->addListener($formatter);
 		}
+		
+		/* Set PHPUnit error handler */
+		$oldErrorHandler = set_error_handler(array('PHPUnitTestRunner', 'handleError'), E_ALL | E_STRICT);
 
-		$this->suite->run($res, false, $this->groups, $this->excludeGroups);
+		$test->run($res, false, $this->groups, $this->excludeGroups);
+		
+		/* Restore Phing error handler */
+		restore_error_handler();
 		
 		if ($this->codecoverage)
 		{
 			$coverageInformation = $res->getCodeCoverageInformation();
 			
-			if (PHPUnitUtil::$installedVersion == 3)
+			foreach ($coverageInformation as $coverage_info)
 			{
-				foreach ($coverageInformation as $coverage_info)
-				{
-					CoverageMerger::merge($this->project, array($coverage_info['files']));
-				}
-			}
-			else
-			{
-				CoverageMerger::merge($this->project, $coverageInformation);
+				CoverageMerger::merge($this->project, array($coverage_info['files']));
 			}
 		}
 		
@@ -126,7 +127,7 @@ class PHPUnitTestRunner
 		{
 			$this->retCode = self::INCOMPLETES;
 		}
-		else if (PHPUnitUtil::$installedVersion == 3 && $res->skippedCount() != 0)
+		else if ($res->skippedCount() != 0)
 		{
 			$this->retCode = self::SKIPPED;
 		}
@@ -136,5 +137,99 @@ class PHPUnitTestRunner
 	{
 		return $this->retCode;
 	}
+	
+	function getLastFailureMessage()
+	{
+		return $this->lastFailureMessage;
+	}
+
+    /**
+     * An error occurred.
+     *
+     * @param  PHPUnit_Framework_Test $test
+     * @param  Exception              $e
+     * @param  float                  $time
+     */
+    public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
+    {
+		$this->lastFailureMessage = "Test ERROR (" . $test->getName() . "): " . $e->getMessage();
+    }
+
+    /**
+     * A failure occurred.
+     *
+     * @param  PHPUnit_Framework_Test                 $test
+     * @param  PHPUnit_Framework_AssertionFailedError $e
+     * @param  float                                  $time
+     */
+    public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
+    {
+		$this->lastFailureMessage = "Test FAILURE (" . $test->getName() . "): " . $e->getMessage();
+	}
+
+    /**
+     * Incomplete test.
+     *
+     * @param  PHPUnit_Framework_Test $test
+     * @param  Exception              $e
+     * @param  float                  $time
+     */
+    public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+    {
+		$this->lastFailureMessage = "Test INCOMPLETE (" . $test->getName() . "): " . $e->getMessage();
+	}
+
+    /**
+     * Skipped test.
+     *
+     * @param  PHPUnit_Framework_Test $test
+     * @param  Exception              $e
+     * @param  float                  $time
+     * @since  Method available since Release 3.0.0
+     */
+    public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+    {
+		$this->lastFailureMessage = "Test SKIPPED (" . $test->getName() . "): " . $e->getMessage();
+	}
+
+    /**
+     * A test started.
+     *
+     * @param  string  $testName
+     */
+    public function testStarted($testName)
+    {
+    }
+
+    /**
+     * A test ended.
+     *
+     * @param  string  $testName
+     */
+    public function testEnded($testName)
+    {
+    }
+
+    /**
+     * A test failed.
+     *
+     * @param  integer                                 $status
+     * @param  PHPUnit_Framework_Test                 $test
+     * @param  PHPUnit_Framework_AssertionFailedError $e
+     */
+    public function testFailed($status, PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e)
+    {
+    }
+
+    /**
+     * Override to define how to handle a failed loading of
+     * a test suite.
+     *
+     * @param  string  $message
+     */
+    protected function runFailed($message)
+    {
+		throw new BuildException($message);
+    }
 }
 

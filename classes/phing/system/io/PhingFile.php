@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: PhingFile.php 362 2008-03-08 10:07:53Z mrook $
+ *  $Id: PhingFile.php 493 2009-07-30 18:37:38Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -394,9 +394,12 @@ class PhingFile {
      *
      */
     function exists() {                
-		clearstatcache();
-        if ($this->isFile()) {
-            return @file_exists($this->path);
+        clearstatcache();
+        
+        if (is_link($this->path)) {
+			return true;
+		} else if ($this->isFile()) {
+			return @file_exists($this->path) || is_link($this->path);
         } else {
             return @is_dir($this->path);
         }

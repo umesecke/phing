@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: AnsiColorLogger.php 386 2008-09-12 21:01:41Z hans $
+ * $Id: AnsiColorLogger.php 436 2009-04-18 21:53:34Z impl $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -144,11 +144,11 @@ class AnsiColorLogger extends DefaultLogger {
      */
     public function __construct() {
         parent::__construct();
-        $this->errColor = self::PREFIX . self::ATTR_DIM . self::SEPARATOR . self::FG_RED . self::SUFFIX;
-        $this->warnColor = self::PREFIX . self::ATTR_DIM . self::SEPARATOR . self::FG_MAGENTA . self::SUFFIX;
-        $this->infoColor = self::PREFIX . self::ATTR_DIM . self::SEPARATOR . self::FG_CYAN . self::SUFFIX;
-        $this->verboseColor = self::PREFIX . self::ATTR_DIM . self::SEPARATOR . self::FG_GREEN . self::SUFFIX;
-        $this->debugColor = self::PREFIX . self::ATTR_DIM . self::SEPARATOR . self::FG_BLUE . self::SUFFIX;
+        $this->errColor = self::PREFIX . self::ATTR_NORMAL . self::SEPARATOR . self::FG_RED . self::SUFFIX;
+        $this->warnColor = self::PREFIX . self::ATTR_NORMAL . self::SEPARATOR . self::FG_MAGENTA . self::SUFFIX;
+        $this->infoColor = self::PREFIX . self::ATTR_NORMAL . self::SEPARATOR . self::FG_CYAN . self::SUFFIX;
+        $this->verboseColor = self::PREFIX . self::ATTR_NORMAL . self::SEPARATOR . self::FG_GREEN . self::SUFFIX;
+        $this->debugColor = self::PREFIX . self::ATTR_NORMAL . self::SEPARATOR . self::FG_BLUE . self::SUFFIX;
     }
     
     /**

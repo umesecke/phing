@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: PHPDocumentorTask.php 144 2007-02-05 15:19:00Z hans $
+ * $Id: PhingPhpDocumentorSetup.php 450 2009-07-21 09:03:32Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -28,7 +28,7 @@
  * PhpDocumentor design. 
  * 
  * @author Hans Lellelid <hans@xmpl.org>@author hans
- * @version $Id$
+ * @version $Id: PhingPhpDocumentorSetup.php 450 2009-07-21 09:03:32Z mrook $
  * @package phing.tasks.ext.phpdoc
  */
 class PhingPhpDocumentorSetup extends phpDocumentor_setup {

@@ -1,6 +1,6 @@
 <?php
 /* 
- *  $Id: PregEngine.php 325 2007-12-20 15:44:58Z hans $
+ *  $Id: PregEngine.php 441 2009-05-13 21:42:08Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,7 +59,8 @@ class PregEngine implements RegexpEngine {
      */
     private function preparePattern($pattern)
     {
-        return '/'.$pattern.'/'.($this->ignoreCase ? 'i' : '');
+		// Use backquotes since hardly ever found in a regexp pattern, avoids using preg_quote
+        return '`'.$pattern.'`'.($this->ignoreCase ? 'i' : '');
     }
     
     /**

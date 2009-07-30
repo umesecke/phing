@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  $Id: BuildFileTest.php 227 2007-08-28 02:17:00Z hans $
+ *  $Id: BuildFileTest.php 446 2009-07-17 11:39:29Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,7 +20,7 @@
  * <http://phing.info>.
  */
  
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'phing/BuildListener.php';
 require_once 'phing/system/io/PhingFile.php';
 
@@ -34,7 +34,7 @@ require_once 'phing/system/io/PhingFile.php';
  * @author Nico Seessle <nico@seessle.de>
  * @author Conor MacNeill
  */
-abstract class BuildFileTest extends PHPUnit2_Framework_TestCase { 
+abstract class BuildFileTest extends PHPUnit_Framework_TestCase { 
     
     protected $project;
     

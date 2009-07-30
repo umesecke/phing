@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  $Id: ContainsConditionTest.php 123 2006-09-14 20:19:08Z mrook $
+ *  $Id: ContainsConditionTest.php 446 2009-07-17 11:39:29Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,7 +20,7 @@
  * <http://phing.info>.
  */
 
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 include_once 'phing/tasks/system/condition/ContainsCondition.php';
 
 /**
@@ -30,7 +30,7 @@ include_once 'phing/tasks/system/condition/ContainsCondition.php';
  * @author Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
  * @version $Revision: 1.3 $
  */
-class ContainsConditionTest extends PHPUnit2_Framework_TestCase {
+class ContainsConditionTest extends PHPUnit_Framework_TestCase {
 
     public function testCaseSensitive() {
         $con = new ContainsCondition();

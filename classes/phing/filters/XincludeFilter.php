@@ -37,6 +37,42 @@ class XincludeFilter extends BaseParamFilterReader implements ChainableReader {
 
     private $basedir = null;
 
+    /**
+     * @var bool
+     */
+    private $processed = false;
+    
+    /**
+     * Whether to resolve entities.
+     * 
+     * @var bool
+     * 
+     * @since 2.4
+     */
+    private $resolveExternals = false;
+    
+    /**
+     * Whether to resolve entities.
+     * 
+     * @param $resolveExternals
+     * 
+     * @since 2.4
+     */
+    public function setResolveExternals($resolveExternals)
+    {
+        $this->resolveExternals = (bool)$resolveExternals;
+    }
+    
+    /**
+     * @return bool
+     * 
+     * @since 2.4
+     */
+    public function getResolveExternals()
+    {
+        return $this->resolveExternals;
+    }
+
     public function setBasedir(PhingFile $dir)
     {
         $this->basedir = $dir;
@@ -103,7 +139,10 @@ class XincludeFilter extends BaseParamFilterReader implements ChainableReader {
             chdir($this->basedir);
         }
 
-        $xmlDom = new DomDocument();
+        // Create and setup document.
+        $xmlDom                   = new DomDocument();
+        $xmlDom->resolveExternals = $this->resolveExternals;
+        
         $xmlDom->loadXML($xml);
         
         $xmlDom->xinclude();

@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  $Id: CommandlineTest.php 123 2006-09-14 20:19:08Z mrook $
+ *  $Id: CommandlineTest.php 446 2009-07-17 11:39:29Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -21,7 +21,7 @@
  */
 
 
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 include_once 'phing/types/Commandline.php';
 
 
@@ -32,7 +32,7 @@ include_once 'phing/types/Commandline.php';
  * @author Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
  * @package propel.types
  */
-class CommandlineTest extends PHPUnit2_Framework_TestCase {
+class CommandlineTest extends PHPUnit_Framework_TestCase {
 
     private $cmd;
     

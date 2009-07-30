@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Project.php 345 2008-01-30 19:46:32Z mrook $
+ *  $Id: Project.php 431 2008-12-01 16:40:14Z bender $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -288,7 +288,15 @@ class Project {
         if (!isset($this->properties[$name])) {
             return null;
         }
-        return $this->properties[$name];
+        $found = $this->properties[$name];
+        // check to see if there are unresolved property references
+        if (false !== strpos($found, '${')) {
+          // attempt to resolve properties
+          $found = $this->replaceProperties($found);
+          // save resolved value
+          $this->properties[$name] = $found;
+        }
+        return $found;
     }
 
     /**
@@ -535,7 +543,7 @@ class Project {
             $this->typedefs[$typeName] = $typeClass;
             $this->log("  +User datatype: $typeName ($typeClass)", Project::MSG_DEBUG);
         } else {
-            $this->log("Type $name ($class) already registerd, skipping", Project::MSG_VERBOSE);
+            $this->log("Type $typeName ($typeClass) already registerd, skipping", Project::MSG_VERBOSE);
         }
     }
 
@@ -555,6 +563,10 @@ class Project {
         $this->log("  +Target: $targetName", Project::MSG_DEBUG);
         $target->setProject($this);
         $this->targets[$targetName] = $target;
+
+        $ctx = $this->getReference("phing.parsing.context");
+        $current = $ctx->getConfigurator()->getCurrentTargets();
+        $current[$targetName] = $target;
     }
 
     function getTargets() {

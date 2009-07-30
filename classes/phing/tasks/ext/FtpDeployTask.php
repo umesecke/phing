@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: FtpDeployTask.php 381 2008-07-29 16:22:26Z mrook $
+ * $Id: FtpDeployTask.php 490 2009-07-30 15:57:19Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,7 +20,6 @@
  */
 
 require_once 'phing/Task.php';
-require_once 'PEAR.php';
 
 /**
  * FtpDeployTask
@@ -40,22 +39,23 @@ require_once 'PEAR.php';
  *   </fileset>
  * </ftpdeploy>
  *
- * 
- * @todo Documentation
  * @author Jorrit Schippers <jorrit at ncode dot nl>
+ * @version $Id: FtpDeployTask.php 490 2009-07-30 15:57:19Z mrook $
  * @since 2.3.1
+ * @package  phing.tasks.ext
  */
 class FtpDeployTask extends Task
 {
 	private $host = null;
-	private $port = 0;
+	private $port = 21;
 	private $username = null;
 	private $password = null;
 	private $dir = null;
 	private $filesets;
 	private $completeDirMap;
-	private $mode = null;
+	private $mode = 'binary';
 	private $clearFirst = false;
+	private $passive = false;
 	
 	public function __construct() {
 		$this->filesets = array();
@@ -94,6 +94,11 @@ class FtpDeployTask extends Task
 		}
 	}
 	
+	public function setPassive($passive)
+	{
+		$this->passive = (bool) $passive;
+	}
+	
 	public function setClearFirst($clearFirst) {
 		$this->clearFirst = (bool) $clearFirst;
 	}
@@ -107,6 +112,8 @@ class FtpDeployTask extends Task
 	 * The init method: check if Net_FTP is available
 	 */
 	public function init() {
+		require_once 'PEAR.php';
+
 		$paths = explode(PATH_SEPARATOR, get_include_path());
 		foreach($paths as $path) {
 			if(file_exists($path.DIRECTORY_SEPARATOR.'Net'.DIRECTORY_SEPARATOR.'FTP.php')) {
@@ -131,17 +138,36 @@ class FtpDeployTask extends Task
 		if(PEAR::isError($ret))
 			throw new BuildException('Could not login to FTP server '.$this->host.' on port '.$this->port.' with username '.$this->username.': '.$ret->getMessage());
 		
+		if ($this->passive) {
+			$this->log('Setting passive mode', Project::MSG_INFO);
+			$ret = $ftp->setPassive();
+			if(PEAR::isError($ret)) {
+				$ftp->disconnect();
+				throw new BuildException('Could not set PASSIVE mode: '.$ret->getMessage());
+			}
+		}
+
+		// append '/' to the end if necessary
+		$dir = substr($this->dir, -1) == '/' ? $this->dir : $this->dir.'/';
+		
 		if($this->clearFirst) {
 			// TODO change to a loop through all files and directories within current directory
-			$this->log('Clearing directory '.$this->dir, Project::MSG_INFO);
-			$dir = substr($this->dir, -1) == '/' ? $this->dir : $this->dir.'/';
+			$this->log('Clearing directory '.$dir, Project::MSG_INFO);
 			$ftp->rm($dir, true);
-			$ftp->mkdir($dir);
 		}
 		
-		$ret = $ftp->cd($this->dir);
-		if(PEAR::isError($ret))
-			throw new BuildException('Could not change to directory '.$this->dir.': '.$ret->getMessage());
+		// Create directory just in case
+		$ret = $ftp->mkdir($dir, true);
+		if(PEAR::isError($ret)) {
+			$ftp->disconnect();
+			throw new BuildException('Could not create directory '.$dir.': '.$ret->getMessage());
+		}
+		
+		$ret = $ftp->cd($dir);
+		if(PEAR::isError($ret)) {
+			$ftp->disconnect();
+			throw new BuildException('Could not change to directory '.$dir.': '.$ret->getMessage());
+		}
 		
 		$fs = FileSystem::getFileSystem();
 		$convert = $fs->getSeparator() == '\\';
@@ -156,8 +182,10 @@ class FtpDeployTask extends Task
 					$dirname = str_replace('\\', '/', $dirname);
 				$this->log('Will create directory '.$dirname, Project::MSG_VERBOSE);
 				$ret = $ftp->mkdir($dirname, true);
-				if(PEAR::isError($ret))
+				if(PEAR::isError($ret))	{
+					$ftp->disconnect();
 					throw new BuildException('Could not create directory '.$dirname.': '.$ret->getMessage());
+				}
 			}
 			foreach($srcFiles as $filename) {
 				$file = new PhingFile($fromDir->getAbsolutePath(), $filename);
@@ -165,8 +193,10 @@ class FtpDeployTask extends Task
 					$filename = str_replace('\\', '/', $filename);
 				$this->log('Will copy '.$file->getCanonicalPath().' to '.$filename, Project::MSG_VERBOSE);
 				$ret = $ftp->put($file->getCanonicalPath(), $filename, true, $this->mode);
-				if(PEAR::isError($ret))
+				if(PEAR::isError($ret)) {
+					$ftp->disconnect();
 					throw new BuildException('Could not deploy file '.$filename.': '.$ret->getMessage());
+				}
 			}
 		}
 		

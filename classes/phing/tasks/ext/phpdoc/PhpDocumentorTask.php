@@ -1,7 +1,7 @@
 <?php
 
 /**
- * $Id: PHPDocumentorTask.php 144 2007-02-05 15:19:00Z hans $
+ * $Id: PhpDocumentorTask.php 489 2009-07-30 15:43:42Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@ require_once 'phing/Task.php';
  *
  * @author Hans Lellelid <hans@xmpl.org>
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id$
+ * @version $Id: PhpDocumentorTask.php 489 2009-07-30 15:43:42Z mrook $
  * @package phing.tasks.ext.phpdoc
  */	
 class PhpDocumentorTask extends Task
@@ -166,6 +166,14 @@ class PhpDocumentorTask extends Task
 	 * @param boolean
 	 */
 	public function setSourcecode($b) {
+		$this->setLinksource($b);
+	}
+
+	/**
+	 * Set whether to generate sourcecode for each file parsed
+	 * @param boolean
+	 */
+	public function setLinksource($b) {
 		$this->linksource = $b;
 	}
 	
@@ -444,7 +452,7 @@ class PhpDocumentorTask extends Task
 	        $files = $fs->getDirectoryScanner($this->project)->getIncludedFiles();
 	        foreach($files as $filename) {
 	        	 $f = new PhingFile($fs->getDir($this->project), $filename);
-	        	 $ricFiles[] = $f->getAbsolutePath();
+	        	 $ricFiles[] = $f->getName();
 	        }
 		}
 		$phpdoc->setRicFiles($ricFiles);

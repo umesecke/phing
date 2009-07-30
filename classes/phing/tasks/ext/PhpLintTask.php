@@ -1,6 +1,6 @@
 <?php
 /*
- *	$Id: PhpLintTask.php 342 2008-01-21 14:49:48Z mrook $
+ *	$Id: PhpLintTask.php 488 2009-07-30 15:04:51Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,7 +26,8 @@ require_once 'phing/Task.php';
  *
  * @author	 Knut Urdalen <knut.urdalen@telio.no>
  * @author	 Stefan Priebsch <stefan.priebsch@e-novative.de>
- * @package	phing.tasks.ext
+ * @version  $Id: PhpLintTask.php 488 2009-07-30 15:04:51Z mrook $
+ * @package	 phing.tasks.ext
  */
 class PhpLintTask extends Task {
 

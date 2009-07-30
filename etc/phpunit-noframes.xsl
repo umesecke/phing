@@ -25,13 +25,13 @@
  
 <!--
  
- Sample stylesheet to be used with Phing/PHPUnit2 output.
+ Sample stylesheet to be used with Phing/PHPUnit output.
  Based on JUnit stylesheets from Apache Ant.
  
  It creates a non-framed report that can be useful to send via
  e-mail or such.
  
- @author Michiel Rook <a href="mailto:michiel@trendserver.nl"/>
+ @author Michiel Rook <a href="mailto:michiel.rook@gmail.com"/>
  @author Stephane Bailliez <a href="mailto:sbailliez@apache.org"/>
  @author Erik Hatcher <a href="mailto:ehatcher@apache.org"/>
  
@@ -216,7 +216,7 @@
                         <td colspan="4"><xsl:apply-templates select="./error"/></td>
                     </tr>
                 </xsl:if>
-                <xsl:apply-templates select="./testcase" mode="print.test"/>
+                <xsl:apply-templates select="./testcase | ./testsuite/testcase" mode="print.test"/>
             </table>
             <p/>
             
@@ -277,7 +277,7 @@
     <table width="100%">
     <tr>
         <td align="left"></td>
-        <td align="right">Designed for use with <a href='http://pear.php.net/package/PHPUnit2'>PHPUnit2</a> and <a href='http://phing.info/'>Phing</a>.</td>
+        <td align="right">Designed for use with <a href='http://www.phpunit.de'>PHPUnit</a> and <a href='http://www.phing.info/'>Phing</a>.</td>
     </tr>
     </table>
     <hr size="1"/>
@@ -397,22 +397,11 @@
     <!-- display the stacktrace -->
     <code>
         <br/><br/>
-		<xsl:value-of select="."/>
         <xsl:call-template name="br-replace">
             <xsl:with-param name="word" select="."/>
         </xsl:call-template>
     </code>
-    <!-- the later is better but might be problematic for non-21" monitors... -->
-    <!--pre><xsl:value-of select="."/></pre-->
 </xsl:template>
-
-<xsl:template name="JS-escape">
-    <xsl:param name="string"/>
-    <xsl:param name="tmp1" select="str:replace(string($string),'\','\\')"/>
-    <xsl:param name="tmp2" select="str:replace(string($tmp1),&quot;'&quot;,&quot;\&apos;&quot;)"/>
-    <xsl:value-of select="$tmp2"/>
-</xsl:template>
-
 
 <!--
     template that will convert a carriage return into a br tag
@@ -420,8 +409,18 @@
 -->
 <xsl:template name="br-replace">
     <xsl:param name="word"/>
-    <xsl:param name="br"><br/></xsl:param>
-    <xsl:value-of select='str:replace(string($word),"&#xA;",$br)'/>
+    <xsl:choose>
+         <xsl:when test="contains($word,'&#x0A;')">
+             <xsl:value-of select="substring-before($word,'&#x0A;')"/>
+             <br />
+             <xsl:call-template name="br-replace">
+                 <xsl:with-param name="word" select="substring-after($word,'&#x0A;')"/>
+             </xsl:call-template>
+         </xsl:when>
+         <xsl:otherwise>
+             <xsl:value-of select="$word"/>
+         </xsl:otherwise>
+    </xsl:choose>
 </xsl:template>
 
 <xsl:template name="display-time">

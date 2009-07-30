@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: ForeachTask.php 144 2007-02-05 15:19:00Z hans $
+ *  $Id: ForeachTask.php 445 2009-06-12 15:55:12Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -103,6 +103,7 @@ class ForeachTask extends Task {
         $arr = explode($this->delimiter, $this->list);
         
         foreach ($arr as $value) {
+            $value = trim($value);
             $this->log("Setting param '$this->param' to value '$value'", Project::MSG_VERBOSE);
             $prop = $callee->createProperty();
             $prop->setOverride(true);

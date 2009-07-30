@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: CopyTask.php 235 2007-09-05 18:42:02Z hans $
+ *  $Id: CopyTask.php 465 2009-07-24 20:23:53Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,7 +33,7 @@ include_once 'phing/mappers/FlattenMapper.php';
  * exist. It is possible to explictly overwrite existing files.
  *
  * @author   Andreas Aderhold, andi@binarycloud.com
- * @version  $Revision: 1.16 $ $Date: 2007-09-05 14:42:02 -0400 (Wed, 05 Sep 2007) $
+ * @version  $Revision: 1.16 $ $Date: 2009-07-24 22:23:53 +0200 (Fr, 24. Jul 2009) $
  * @package  phing.tasks.system
  */
 class CopyTask extends Task {
@@ -52,6 +52,7 @@ class CopyTask extends Task {
     protected $completeDirMap= array(); // asoc array containing complete dir names
     protected $fileUtils     = null;    // a instance of fileutils
     protected $filesets      = array(); // all fileset objects assigned to this task
+    protected $filelists     = array(); // all filelist objects assigned to this task
     protected $filterChains  = array(); // all filterchains objects assigned to this task
 
     protected $verbosity     = Project::MSG_VERBOSE;
@@ -171,6 +172,16 @@ class CopyTask extends Task {
         return $this->filesets[$num-1];
     }
 
+	/**
+	 * Nested creator, adds a set of files (nested fileset attribute).
+     *
+     * @access  public
+     * @return  object  The created filelist object
+     */
+    function createFileList() {
+        $num = array_push($this->filelists, new FileList());
+        return $this->filelists[$num-1];
+    }
     /**
      * Creates a filterchain
      *
@@ -226,6 +237,20 @@ class CopyTask extends Task {
 
         $project = $this->getProject();
 
+		// process filelists
+		foreach($this->filelists as $fl) {
+            $fromDir  = $fl->getDir($project);
+            $srcFiles = $fl->getFiles($project);
+            $srcDirs  = array($fl->getDir($project));
+            
+            if (!$this->flatten && $this->mapperElement === null)
+            {
+				$this->completeDirMap[$fromDir->getAbsolutePath()] = $this->destDir->getAbsolutePath();
+			}
+            
+            $this->_scan($fromDir, $this->destDir, $srcFiles, $srcDirs);
+		}
+		
         // process filesets
         foreach($this->filesets as $fs) {
             $ds = $fs->getDirectoryScanner($project);

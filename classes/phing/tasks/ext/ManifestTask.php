@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: ManifestTask.php 341 2008-01-21 14:41:07Z mrook $
+ * $Id: ManifestTask.php 488 2009-07-30 15:04:51Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -46,6 +46,8 @@ require_once 'phing/system/io/PhingFile.php';
  * 
  * 
  * @author David Persson <davidpersson at qeweurope dot org>
+ * @package phing.tasks.ext
+ * @version $Id: ManifestTask.php 488 2009-07-30 15:04:51Z mrook $
  * @since 2.3.1
  */
 class ManifestTask extends Task

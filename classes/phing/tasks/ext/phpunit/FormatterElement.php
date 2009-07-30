@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: FormatterElement.php 325 2007-12-20 15:44:58Z hans $
+ * $Id: FormatterElement.php 448 2009-07-17 12:22:49Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -25,7 +25,7 @@ require_once 'phing/system/io/PhingFile.php';
  * A wrapper for the implementations of PHPUnit2ResultFormatter.
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: FormatterElement.php 325 2007-12-20 15:44:58Z hans $
+ * @version $Id: FormatterElement.php 448 2009-07-17 12:22:49Z mrook $
  * @package phing.tasks.ext.phpunit
  * @since 2.1.0
  */
@@ -47,46 +47,22 @@ class FormatterElement
 		
 		if ($this->type == "summary")
 		{
-			if (PHPUnitUtil::$installedVersion == 3)
-			{
-				require_once 'phing/tasks/ext/phpunit/phpunit3/SummaryPHPUnit3ResultFormatter.php';
-				$this->formatter = new SummaryPHPUnit3ResultFormatter();
-			}
-			else			
-			{
-				require_once 'phing/tasks/ext/phpunit/phpunit2/SummaryPHPUnit2ResultFormatter.php';
-				$this->formatter = new SummaryPHPUnit2ResultFormatter();
-			}
+			require_once 'phing/tasks/ext/phpunit/phpunit3/SummaryPHPUnit3ResultFormatter.php';
+			$this->formatter = new SummaryPHPUnit3ResultFormatter();
 		}
 		else
 		if ($this->type == "xml")
 		{
 			$destFile = new PhingFile($this->toDir, 'testsuites.xml');
 
-			if (PHPUnitUtil::$installedVersion == 3)
-			{
-				require_once 'phing/tasks/ext/phpunit/phpunit3/XMLPHPUnit3ResultFormatter.php';
-				$this->formatter = new XMLPHPUnit3ResultFormatter();
-			}
-			else
-			{
-				require_once 'phing/tasks/ext/phpunit/phpunit2/XMLPHPUnit2ResultFormatter.php';
-				$this->formatter = new XMLPHPUnit2ResultFormatter();
-			}
+			require_once 'phing/tasks/ext/phpunit/phpunit3/XMLPHPUnit3ResultFormatter.php';
+			$this->formatter = new XMLPHPUnit3ResultFormatter();
 		}
 		else
 		if ($this->type == "plain")
 		{
-			if (PHPUnitUtil::$installedVersion == 3)
-			{
-				require_once 'phing/tasks/ext/phpunit/phpunit3/PlainPHPUnit3ResultFormatter.php';
-				$this->formatter = new PlainPHPUnit3ResultFormatter();
-			}
-			else
-			{
-				require_once 'phing/tasks/ext/phpunit/phpunit2/PlainPHPUnit2ResultFormatter.php';
-				$this->formatter = new PlainPHPUnit2ResultFormatter();
-			}
+			require_once 'phing/tasks/ext/phpunit/phpunit3/PlainPHPUnit3ResultFormatter.php';
+			$this->formatter = new PlainPHPUnit3ResultFormatter();
 		}
 		else
 		{
