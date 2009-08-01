@@ -130,7 +130,13 @@ class SelectorUtils {
     
         $rePattern = preg_quote($pattern, '/');
         $dirSep = preg_quote(DIRECTORY_SEPARATOR, '/');
-        $rePattern = str_replace(array("\*\*", "\*", "\?"), array('.*', '[^'.$dirSep.']*', '[^'.$dirSep.']'), $rePattern);
+        $patternReplacements = array(
+            '\*\*'.$dirSep => '.*',
+            '\*\*' => '.*',
+            '\*' => '[^'.$dirSep.']*',
+            '\?' => '[^'.$dirSep.']'
+        );
+        $rePattern = str_replace(array_keys($patternReplacements), array_values($patternReplacements), $rePattern);
         $rePattern = '/^'.$rePattern.'$/'.($isCaseSensitive ? '' : 'i');
         return preg_match($rePattern, $str);
     }
