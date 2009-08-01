@@ -1,6 +1,6 @@
 <?php
 /*
- *	$Id: PhpCodeSnifferTask.php 460 2009-07-21 13:28:21Z mrook $
+ *	$Id: PhpCodeSnifferTask.php 506 2009-08-01 11:25:08Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -25,7 +25,7 @@ require_once 'phing/Task.php';
  * A PHP code sniffer task. Checking the style of one or more PHP source files.
  *
  * @author	Dirk Thomas <dirk.thomas@4wdmedia.de>
- * @version $Id: PhpCodeSnifferTask.php 460 2009-07-21 13:28:21Z mrook $
+ * @version $Id: PhpCodeSnifferTask.php 506 2009-08-01 11:25:08Z mrook $
  * @package	phing.tasks.ext
  */
 class PhpCodeSnifferTask extends Task {
@@ -48,6 +48,9 @@ class PhpCodeSnifferTask extends Task {
 	protected $showSniffs = false;
 	protected $format = 'default';
 	protected $formatters   = array();
+	
+	private $haltonerror = false;
+	private $haltonwarning = false;	
 
 	/**
 	 * File to be performed syntax check on
@@ -194,7 +197,25 @@ class PhpCodeSnifferTask extends Task {
         new PhpCodeSnifferTask_FormatterElement());
 	    return $this->formatters[$num-1];
 	}
+	
+	/**
+	 * Sets the haltonerror flag
+	 * @param boolean $value
+	 */
+	function setHaltonerror($value)
+	{
+		$this->haltonerror = $value;
+	}
 
+	/**
+	 * Sets the haltonwarning flag
+	 * @param boolean $value
+	 */
+	function setHaltonwarning($value)
+	{
+		$this->haltonwarning = $value;
+	}
+	
 	/**
 	 * Executes PHP code sniffer against PhingFile or a FileSet
 	 */
@@ -210,6 +231,23 @@ class PhpCodeSnifferTask extends Task {
 		  $fmt->setUseFile(false);
 		  $this->formatters[] = $fmt;
 		}
+		
+		if (!isset($this->file))
+		{
+			$fileList = array();
+			$project = $this->getProject();
+			foreach ($this->filesets as $fs) {
+				$ds = $fs->getDirectoryScanner($project);
+				$files = $ds->getIncludedFiles();
+				$dir = $fs->getDir($this->project)->getAbsolutePath();
+				foreach ($files as $file) {
+					$fileList[] = $dir.DIRECTORY_SEPARATOR.$file;
+				}
+	  		}
+	  	}
+	  	
+	  	/* save current directory */
+	  	$old_cwd = getcwd();
 
 		require_once 'PHP/CodeSniffer.php';
 		$codeSniffer = new PHP_CodeSniffer($this->verbosity, $this->tabWidth);
@@ -223,20 +261,25 @@ class PhpCodeSnifferTask extends Task {
 			$codeSniffer->process($this->file->getPath(), $this->standard, $this->sniffs, $this->noSubdirectories);
 
 		} else {
-			$fileList = array();
-			$project = $this->getProject();
-			foreach ($this->filesets as $fs) {
-				$ds = $fs->getDirectoryScanner($project);
-				$files = $ds->getIncludedFiles();
-				$dir = $fs->getDir($this->project)->getPath();
-				foreach ($files as $file) {
-					$fileList[] = $dir.DIRECTORY_SEPARATOR.$file;
-				}
-	  		}
 			$codeSniffer->process($fileList, $this->standard, $this->sniffs, $this->noSubdirectories);
 		}
 
 		$this->output($codeSniffer);
+		
+		$report = $codeSniffer->prepareErrorReport(true);			
+		
+		if ($this->haltonerror && $report['totals']['errors'] > 0)
+		{
+			throw new BuildException('phpcodesniffer detected ' . $report['totals']['errors']. ' error' . ($report['totals']['errors'] > 1 ? 's' : ''));
+		}
+
+		if ($this->haltonwarning && $report['totals']['warnings'] > 0)
+		{
+			throw new BuildException('phpcodesniffer detected ' . $report['totals']['warnings'] . ' warning' . ($report['totals']['warnings'] > 1 ? 's' : ''));
+		}
+		
+		/* reset current directory */
+		chdir($old_cwd);
 	}
 
 	/**

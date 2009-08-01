@@ -1,5 +1,5 @@
 <!--
--File         $Id: AppendixC-OptionalTasks.html 496 2009-07-30 19:03:16Z mrook $
+-File         $Id: AppendixC-OptionalTasks.html 506 2009-08-01 11:25:08Z mrook $
 -License      GNU FDL (http://www.gnu.org/copyleft/fdl.html)
 -Copyright    2002, turing
 -Author       alex black, enigma@turingstudio.com
@@ -1271,6 +1271,18 @@ unit tests. The code coverage tasks use the <a href="http://www.xdebug.org/" tar
       <td>false</td>
       <td>No</td>
     </tr>
+      <td>haltonerror</td>
+      <td>Boolean</td>
+      <td> Stop the build process if errors occurred during during the run. </td>
+      <td>false</td>
+      <td>No</td>
+    </tr>
+      <td>haltonwarning</td>
+      <td>Boolean</td>
+      <td> Stop the build process if warnings occurred during the run. </td>
+      <td>false</td>
+      <td>No</td>
+    </tr>
   </tbody>
 </table>
 <h3>Supported Nested Tags</h3>
@@ -1358,17 +1370,17 @@ unit tests. The code coverage tasks use the <a href="http://www.xdebug.org/" tar
 &lt;/phpcodesniffer&gt;
 </pre>
 <p>Checks all matching files in the directory <em>dir</em> with a custom external standard, sets the <em>zend_ca_path</em> configuration which may be required by one of the sniffs, prints a list of used sniffs and prints the <em>default</em> report with warnings and the <em>checkstyle</em> report to <em>/path/to/checkstyle.xml</em>.</p>
-<pre>&lt;phpunit
+<pre>&lt;phpcodesniffer
   standard=&quot;/path/to/external-standard&quot;
   showSniffs=&quot;true&quot;
-  showWarnigns=&quot;true&quot;&gt;
+  showWarnings=&quot;true&quot;&gt;
   &lt;fileset dir=&quot;/path/to/source-files&quot;&gt;
     &lt;include name=&quot;**/*.php&quot;/&gt;
   &lt;/fileset&gt;
   &lt;config name=&quot;zend_ca_path&quot; value=&quot;/path/to/ZendStudio/bin/ZendCodeAnalyzer&quot;/&gt;
   &lt;formatter type=&quot;default&quot; usefile=&quot;false&quot;/&gt;
   &lt;formatter type=&quot;checkstyle&quot; outfile=&quot;/path/to/checkstyle.xml&quot;/&gt;
-&lt;/phpunit&gt;
+&lt;/phpcodesniffer&gt;
 </pre>
 <p>Externally stored custom standard have to follow the same naming conventions as if they were stored in the <em>Standards</em> subdirectory of PHP_CodeSniffer itself.</p>
 

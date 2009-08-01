@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: SvnBaseTask.php 482 2009-07-30 09:22:58Z mrook $
+ *  $Id: SvnBaseTask.php 501 2009-07-31 18:36:23Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,7 +26,7 @@ include_once 'phing/Task.php';
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
  * @author Andrew Eddie <andrew.eddie@jamboworks.com> 
- * @version $Id: SvnBaseTask.php 482 2009-07-30 09:22:58Z mrook $
+ * @version $Id: SvnBaseTask.php 501 2009-07-31 18:36:23Z mrook $
  * @package phing.tasks.ext.svn
  * @see VersionControl_SVN
  * @since 2.2.0
@@ -58,7 +58,7 @@ abstract class SvnBaseTask extends Task
 	function init() {
 		include_once 'VersionControl/SVN.php';
 		if (!class_exists('VersionControl_SVN')) {
-			throw new Exception("SvnLastRevisionTask depends on PEAR VersionControl_SVN package being installed.");
+			throw new Exception("The SVN tasks depend on PEAR VersionControl_SVN package being installed.");
 		}
 	}
 
