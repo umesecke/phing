@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: AbstractSAXParser.php 322 2007-12-20 03:00:35Z hans $
+ *  $Id: AbstractSAXParser.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -28,7 +28,7 @@
  * @author    Andreas Aderhold <andi@binarycloud.com>
  * @author    Hans Lellelid <hans@xmpl.org>
  * @copyright � 2001,2002 THYRELL. All rights reserved
- * @version   $Revision: 1.13 $
+ * @version   $Revision: 526 $
  * @package   phing.parser
  */
 abstract class AbstractSAXParser {

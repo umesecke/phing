@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: PearLogListener.php 227 2007-08-28 02:17:00Z hans $
+ *  $Id: PearLogListener.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -36,7 +36,7 @@ require_once 'phing/BuildListener.php';
  * </code>
  * 
  * @author    Hans Lellelid <hans@xmpl.org>
- * @version   $Revision: 1.3 $ $Date: 2007-08-28 04:17:00 +0200 (Di, 28. Aug 2007) $
+ * @version   $Revision: 526 $ $Date: 2009-08-11 14:11:17 +0200 (Di, 11. Aug 2009) $
  * @see       BuildEvent
  * @package   phing.listener
  */

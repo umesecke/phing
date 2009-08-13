@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: TarTask.php 488 2009-07-30 15:04:51Z mrook $
+ *  $Id: TarTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -31,7 +31,7 @@ include_once 'phing/util/StringHelper.php';
  * @author    Stefano Mazzocchi <stefano@apache.org> (Ant)
  * @author    Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
  * @author    Magesh Umasankar
- * @version   $Id: TarTask.php 488 2009-07-30 15:04:51Z mrook $
+ * @version   $Id: TarTask.php 526 2009-08-11 12:11:17Z mrook $
  * @package   phing.tasks.ext
  */
 class TarTask extends MatchingTask {

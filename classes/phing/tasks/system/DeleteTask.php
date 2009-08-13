@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: DeleteTask.php 321 2007-12-14 18:00:25Z hans $
+ *  $Id: DeleteTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -24,7 +24,7 @@ require_once 'phing/Task.php';
 /**
  * Deletes a file or directory, or set of files defined by a fileset.
  * 
- * @version   $Revision: 1.13 $
+ * @version   $Revision: 526 $
  * @package   phing.tasks.system
  */
 class DeleteTask extends Task {

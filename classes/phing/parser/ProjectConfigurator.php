@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: ProjectConfigurator.php 368 2008-05-18 17:21:02Z bender $
+ * $Id: ProjectConfigurator.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,7 +35,7 @@ include_once 'phing/IntrospectionHelper.php';
  *
  * @author      Andreas Aderhold <andi@binarycloud.com>
  * @copyright � 2001,2002 THYRELL. All rights reserved
- * @version   $Revision: 1.17 $ $Date: 2008-05-18 19:21:02 +0200 (So, 18. Mai 2008) $
+ * @version   $Revision: 526 $ $Date: 2009-08-11 14:11:17 +0200 (Di, 11. Aug 2009) $
  * @access    public
  * @package   phing.parser
  */

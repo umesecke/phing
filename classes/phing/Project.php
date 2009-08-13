@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Project.php 431 2008-12-01 16:40:14Z bender $
+ *  $Id: Project.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -34,7 +34,7 @@ include_once 'phing/input/DefaultInputHandler.php';
  *
  * @author    Andreas Aderhold <andi@binarycloud.com>
  * @author    Hans Lellelid <hans@xmpl.org>
- * @version   $Revision: 1.29 $
+ * @version   $Revision: 526 $
  * @package   phing
  */
 class Project {

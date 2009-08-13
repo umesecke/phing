@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: PHPUnitTestRunner.php 492 2009-07-30 18:22:04Z mrook $
+ * $Id: PHPUnitTestRunner.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,7 +29,7 @@ require_once 'phing/system/util/Timer.php';
  * Simple Testrunner for PHPUnit that runs all tests of a testsuite.
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: PHPUnitTestRunner.php 492 2009-07-30 18:22:04Z mrook $
+ * @version $Id: PHPUnitTestRunner.php 526 2009-08-11 12:11:17Z mrook $
  * @package phing.tasks.ext.phpunit
  * @since 2.1.0
  */

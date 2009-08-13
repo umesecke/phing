@@ -7,7 +7,7 @@
     * Test class for HelloWorld
     *
     * @author Michiel Rook
-    * @version $Id: HelloWorldTest.php 423 2008-10-28 19:14:30Z mrook $
+    * @version $Id: HelloWorldTest.php 526 2009-08-11 12:11:17Z mrook $
     * @package hello.world
     */
     class HelloWorldTest extends PHPUnit_Framework_TestCase

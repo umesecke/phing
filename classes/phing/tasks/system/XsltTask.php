@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: XsltTask.php 498 2009-07-30 19:14:07Z mrook $
+ *  $Id: XsltTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -31,7 +31,7 @@ include_once 'phing/filters/XsltFilter.php';
  * in the <filterchains> section.
  * 
  * @author    Andreas Aderhold, andi@binarycloud.com
- * @version   $Id: XsltTask.php 498 2009-07-30 19:14:07Z mrook $
+ * @version   $Id: XsltTask.php 526 2009-08-11 12:11:17Z mrook $
  * @package   phing.tasks.system
  */
 class XsltTask extends CopyTask {

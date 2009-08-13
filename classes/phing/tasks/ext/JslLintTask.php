@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: JslLintTask.php 488 2009-07-30 15:04:51Z mrook $
+ *  $Id: JslLintTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@ require_once 'phing/Task.php';
   * This class is based on Knut Urdalen's PhpLintTask.
   *
   * @author Stefan Priebsch <stefan.priebsch@e-novative.de>
-  * @version $Id: JslLintTask.php 488 2009-07-30 15:04:51Z mrook $
+  * @version $Id: JslLintTask.php 526 2009-08-11 12:11:17Z mrook $
   * @package phing.tasks.ext
   */
   class JslLintTask extends Task
@@ -110,7 +110,7 @@ require_once 'phing/Task.php';
       exec('jsl', $output);
       if (!preg_match('/JavaScript\sLint/', implode('', $output))) throw new BuildException('Javascript Lint not found');
     
-      $command = 'jsl -output-format file:__FILE__;line:__LINE__;message:__ERROR__ -process ';
+      $command = 'jsl -output-format ' . escapeshellarg('file:__FILE__;line:__LINE__;message:__ERROR__') . ' -process ';
 
       if(file_exists($file))
       {

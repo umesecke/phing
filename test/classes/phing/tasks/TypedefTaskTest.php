@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: TypedefTaskTest.php 369 2008-05-18 17:54:38Z bender $
+ *  $Id: TypedefTaskTest.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -24,7 +24,7 @@ require_once 'phing/BuildFileTest.php';
 /**
  * @author Hans Lellelid <hans@xmpl.org> (Phing)
  * @author Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
- * @version $Revision: 1.5 $
+ * @version $Revision: 526 $
  */
 class TypedefTaskTest extends BuildFileTest { 
         

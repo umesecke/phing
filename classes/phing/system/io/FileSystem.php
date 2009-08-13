@@ -1,7 +1,7 @@
 <?php
 
 /* 
- *  $Id: FileSystem.php 362 2008-03-08 10:07:53Z mrook $
+ *  $Id: FileSystem.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,7 +35,7 @@
  *    
  * @author Charlie Killian <charlie@tizac.com>
  * @author Hans Lellelid <hans@xmpl.org>
- * @version $Revision: 1.11 $
+ * @version $Revision: 526 $
  * @package phing.system.io
  */
 abstract class FileSystem {    
@@ -313,9 +313,14 @@ abstract class FileSystem {
     /**
      * Create a new directory denoted by the given abstract pathname,
      * returning true if and only if the operation succeeds.
+     *
+     * NOTE: umask() is reset to 0 while executing mkdir(), and restored afterwards
      */
-    function createDirectory(&$f) {
-        return @mkdir($f->getAbsolutePath(),0755);
+    function createDirectory(&$f, $mode = 0755) {
+		$old_umask = umask(0);
+		$return = @mkdir($f->getAbsolutePath(), $mode);
+		umask($old_umask);
+        return $return;
     }
 
     /**

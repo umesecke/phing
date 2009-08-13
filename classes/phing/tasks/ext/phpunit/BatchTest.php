@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: BatchTest.php 448 2009-07-17 12:22:49Z mrook $
+ * $Id: BatchTest.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -25,7 +25,7 @@ require_once 'phing/types/FileSet.php';
  * Scans a list of files given by the fileset attribute, extracts valid test cases
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: BatchTest.php 448 2009-07-17 12:22:49Z mrook $
+ * @version $Id: BatchTest.php 526 2009-08-11 12:11:17Z mrook $
  * @package phing.tasks.ext.phpunit
  * @since 2.1.0
  */

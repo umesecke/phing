@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: FtpDeployTask.php 490 2009-07-30 15:57:19Z mrook $
+ * $Id: FtpDeployTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -40,7 +40,7 @@ require_once 'phing/Task.php';
  * </ftpdeploy>
  *
  * @author Jorrit Schippers <jorrit at ncode dot nl>
- * @version $Id: FtpDeployTask.php 490 2009-07-30 15:57:19Z mrook $
+ * @version $Id: FtpDeployTask.php 526 2009-08-11 12:11:17Z mrook $
  * @since 2.3.1
  * @package  phing.tasks.ext
  */

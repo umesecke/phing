@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: SvnExportTask.php 372 2008-05-28 04:27:04Z bender $
+ * $Id: SvnExportTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -28,7 +28,7 @@ require_once 'phing/tasks/ext/svn/SvnBaseTask.php';
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
  * @author Andrew Eddie <andrew.eddie@jamboworks.com> 
- * @version $Id: SvnExportTask.php 372 2008-05-28 04:27:04Z bender $
+ * @version $Id: SvnExportTask.php 526 2009-08-11 12:11:17Z mrook $
  * @package phing.tasks.ext.svn
  * @since 2.2.0
  */

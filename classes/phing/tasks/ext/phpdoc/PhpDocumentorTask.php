@@ -1,7 +1,7 @@
 <?php
 
 /**
- * $Id: PhpDocumentorTask.php 489 2009-07-30 15:43:42Z mrook $
+ * $Id: PhpDocumentorTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@ require_once 'phing/Task.php';
  *
  * @author Hans Lellelid <hans@xmpl.org>
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: PhpDocumentorTask.php 489 2009-07-30 15:43:42Z mrook $
+ * @version $Id: PhpDocumentorTask.php 526 2009-08-11 12:11:17Z mrook $
  * @package phing.tasks.ext.phpdoc
  */	
 class PhpDocumentorTask extends Task

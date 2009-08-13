@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: PHPUnitReportTask.php 462 2009-07-23 22:02:30Z mrook $
+ * $Id: PHPUnitReportTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -32,7 +32,7 @@ require_once 'phing/util/ExtendedFileStream.php';
  * different packages or testcases since it is a Javadoc like report.
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: PHPUnitReportTask.php 462 2009-07-23 22:02:30Z mrook $
+ * @version $Id: PHPUnitReportTask.php 526 2009-08-11 12:11:17Z mrook $
  * @package phing.tasks.ext.phpunit
  * @since 2.1.0
  */

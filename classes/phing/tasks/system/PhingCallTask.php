@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: PhingCallTask.php 299 2007-11-08 20:31:19Z hans $
+ *  $Id: PhingCallTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -41,7 +41,7 @@ require_once 'phing/Task.php';
  *
  * @author    Andreas Aderhold <andi@binarycloud.com>
  * @copyright 2001,2002 THYRELL. All rights reserved
- * @version   $Revision: 1.9 $
+ * @version   $Revision: 526 $
  * @access    public
  * @package   phing.tasks.system
  */

@@ -1,5 +1,5 @@
 <!--
--File         $Id: AppendixC-OptionalTasks.html 506 2009-08-01 11:25:08Z mrook $
+-File         $Id: AppendixC-OptionalTasks.html 508 2009-08-03 20:44:37Z mrook $
 -License      GNU FDL (http://www.gnu.org/copyleft/fdl.html)
 -Copyright    2002, turing
 -Author       alex black, enigma@turingstudio.com
@@ -592,6 +592,66 @@ unit tests. The code coverage tasks use the <a href="http://www.xdebug.org/" tar
     <p>Custom text that is added to the start of each encoded file.</p>
   </li>
 </ul>
+
+<h2><a name="JslLintTask"></a>JslLintTask</h2>
+<p>The <em>JslLintTask</em> uses the <a href="http://www.javascriptlint.com" target="_blank">Javascript Lint</a> program to check the sytax on one or more JavaScript source code files.</p>
+
+<p><b>NB:</b> the Javascript lint program must be in the system path!</p>
+
+<h3>Attributes</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+      <th>Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>file</td>
+      <td>String</td>
+      <td>Path to source file</td>
+      <td>n/a</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>haltonfailure</td>
+      <td>Boolean</td>
+      <td> Stop the build process if the linting process encounters an error. </td>
+      <td>false</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>showwarnings</td>
+      <td>Boolean</td>
+      <td>Sets the flag if warnings should be shown. </td>
+      <td>true</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Supported Nested Tags</h3>
+<ul>
+  <li>fileset</li>
+</ul>
+
+<h3>Example</h3>
+<pre>
+&lt;phplint file=&quot;path/to/source.php&quot;/&gt;
+</pre>
+<p>Checking syntax of one particular source file.</p>
+<pre>
+&lt;phplint&gt;
+&nbsp;&nbsp;&lt;fileset dir=&quot;src&quot;&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;include name="**/*.php"/&gt;
+&nbsp;&nbsp;&lt;/fileset&gt;
+&lt;/phplint&gt;
+</pre>
+<p>Check syntax of a fileset of source files.</p>
 
 <h2><a name="JsMinTask"></a>JsMinTask</h2>
 <p>The <em>JsMinTask</em> minifies JavaScript files using <a href="http://code.google.com/p/jsmin-php/">JsMin</a>. JsMin is bundled with Phing and does not need to be installed separately.</p>
@@ -1271,12 +1331,14 @@ unit tests. The code coverage tasks use the <a href="http://www.xdebug.org/" tar
       <td>false</td>
       <td>No</td>
     </tr>
+    <tr>
       <td>haltonerror</td>
       <td>Boolean</td>
       <td> Stop the build process if errors occurred during during the run. </td>
       <td>false</td>
       <td>No</td>
     </tr>
+    <tr>
       <td>haltonwarning</td>
       <td>Boolean</td>
       <td> Stop the build process if warnings occurred during the run. </td>
@@ -1650,7 +1712,7 @@ documented below.</p>
     <tr>
       <td>haltonfailure</td>
       <td>Boolean</td>
-      <td> Stop the build process if the linting process. </td>
+      <td> Stop the build process if the linting process encounters an error. </td>
       <td>false</td>
       <td>No</td>
     </tr>

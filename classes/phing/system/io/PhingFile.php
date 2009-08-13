@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: PhingFile.php 493 2009-07-30 18:37:38Z mrook $
+ *  $Id: PhingFile.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -25,7 +25,7 @@ include_once 'phing/system/lang/NullPointerException.php';
 /**
  * An abstract representation of file and directory pathnames.
  *
- * @version   $Revision: 1.1 $
+ * @version   $Revision: 526 $
  * @package   phing.system.io
  */
 class PhingFile {
@@ -605,19 +605,19 @@ class PhingFile {
      *          otherwise
      * @throws  IOException
      */
-    function mkdirs() {
+    function mkdirs($mode = 0755) {
         if ($this->exists()) {
             return false;
         }
 		try {
-			if ($this->mkdir()) {
+			if ($this->mkdir($mode)) {
 	            return true;
 	        }
 		} catch (IOException $ioe) {
 			// IOException from mkdir() means that directory propbably didn't exist.
 		}        
         $parentFile = $this->getParentFile();
-        return (($parentFile !== null) && ($parentFile->mkdirs() && $this->mkdir()));
+        return (($parentFile !== null) && ($parentFile->mkdirs($mode) && $this->mkdir($mode)));
     }
 
     /**
@@ -626,13 +626,13 @@ class PhingFile {
      * @return  true if and only if the directory was created; false otherwise
      * @throws  IOException
      */
-    function mkdir() {
+    function mkdir($mode = 0755) {
         $fs = FileSystem::getFileSystem();
 
         if ($fs->checkAccess(new PhingFile($this->path), true) !== true) {
             throw new IOException("No write access to " . $this->getPath());
         }
-        return $fs->createDirectory($this);
+        return $fs->createDirectory($this, $mode);
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: FilterChain.php 247 2007-10-16 21:09:37Z hans $
+ *  $Id: FilterChain.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -42,15 +42,18 @@ include_once 'phing/filters/XsltFilter.php';
  * FilterChain may contain a chained set of filter readers.
  *
  * @author    Yannick Lecaillez <yl@seasonfive.com>
- * @version   $Revision: 1.11 $
+ * @version   $Revision: 526 $
  * @package   phing.types
  */
 class FilterChain extends DataType {
 
     private $filterReaders = array();
 
-    function __construct(Project $project) {
-        $this->project = $project;
+    function __construct($project = null) {
+		if ($project)
+		{
+        	$this->project = $project;
+		}
     }
 
     function getFilterReaders() {
@@ -159,7 +162,7 @@ class FilterChain extends DataType {
     */
     function setRefid(Reference $r) {
     
-        if ( count($this->filterReaders) === 0 ) {
+        if ( count($this->filterReaders) !== 0 ) {
             throw $this->tooManyAttributes();
         }
 

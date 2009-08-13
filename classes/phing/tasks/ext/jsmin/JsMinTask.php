@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: JsMinTask.php 467 2009-07-27 09:56:58Z mrook $
+ *  $Id: JsMinTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,7 +29,7 @@ require_once 'phing/tasks/ext/jsmin/JsMin.php';
  * is bundled with Phing so no additional install of JsMin is required.
  *
  * @author Frank Kleine <mikey@stubbles.net>
- * @version $Id: JsMinTask.php 467 2009-07-27 09:56:58Z mrook $
+ * @version $Id: JsMinTask.php 526 2009-08-11 12:11:17Z mrook $
  * @package phing.tasks.ext
  * @since 2.3.0
  */

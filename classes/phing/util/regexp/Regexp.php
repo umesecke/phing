@@ -1,6 +1,6 @@
 <?php
 /* 
- *  $Id: Regexp.php 325 2007-12-20 15:44:58Z hans $
+ *  $Id: Regexp.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -23,7 +23,7 @@
  * A factory class for regex functions.
  * @author Hans Lellelid <hans@xmpl.org>
  * @package  phing.util.regexp
- * @version $Revision: 1.5 $
+ * @version $Revision: 526 $
  */
 class Regexp {
 

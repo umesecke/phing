@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: BuildException.php 287 2007-11-04 14:59:39Z hans $
+ *  $Id: BuildException.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -23,7 +23,7 @@
  * BuildException is for when things go wrong in a build execution.
  *
  * @author   Andreas Aderhold <andi@binarycloud.com>
- * @version  $Revision: 1.12 $
+ * @version  $Revision: 526 $
  * @package  phing
  */
 class BuildException extends Exception {

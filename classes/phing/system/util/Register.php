@@ -35,7 +35,7 @@
  * </code>
  *
  * @author Hans Lellelid <hans@xmpl.org>
- * @version $Revision: 1.3 $
+ * @version $Revision: 526 $
  * @package phing.system.util
  */
 class Register {

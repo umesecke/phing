@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: ZendCodeAnalyzerTask.php 488 2009-07-30 15:04:51Z mrook $
+ *  $Id: ZendCodeAnalyzerTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,7 +59,7 @@ require_once 'phing/Task.php';
  * <b>expr-unused</b> - Expression result is never used
  *
  * @author   Knut Urdalen <knut.urdalen@gmail.com>
- * @version  $Id: ZendCodeAnalyzerTask.php 488 2009-07-30 15:04:51Z mrook $
+ * @version  $Id: ZendCodeAnalyzerTask.php 526 2009-08-11 12:11:17Z mrook $
  * @package  phing.tasks.ext
  */
 class ZendCodeAnalyzerTask extends Task {

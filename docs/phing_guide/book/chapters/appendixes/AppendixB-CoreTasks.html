@@ -1,5 +1,5 @@
 <!--
--File         $Id: AppendixB-CoreTasks.html 497 2009-07-30 19:11:13Z mrook $
+-File         $Id: AppendixB-CoreTasks.html 527 2009-08-11 19:10:39Z mrook $
 -License      GNU FDL (http://www.gnu.org/copyleft/fdl.html)
 -Copyright    2002, turing
 -Author       alex black, enigma@turingstudio.com
@@ -392,6 +392,15 @@ i.e. copying a file to the same name for security reasons.
       <td>true</td>
       <td>No</td>
     </tr>
+     <tr>
+      <td>mode</td>
+      <td>Integer</td>
+      <td>
+         Mode (octal) to create directories with.
+      </td>
+      <td>0755</td>
+      <td>No</td>
+    </tr>
   </tbody>
 </table>
 <h3>Supported Nested Tags</h3>
@@ -679,10 +688,17 @@ The task can also echo to a file, in which case the option to append rather than
     <tr>
       <td>passthru</td>
       <td>Boolean</td>
-      <td> Wether to passthru the output.</td>
+      <td> Whether to use PHP's passthru() function instead of exec().</td>
       <td>FALSE</td>
       <td>No</td>
     </tr>
+    <tr>
+      <td>logoutput</td>
+      <td>Boolean</td>
+      <td> Whether to log returned output as MSG_INFO instead of MSG_VERBOSE.</td>
+      <td>FALSE</td>
+      <td>No</td>
+    </tr>    
     <tr>
       <td>spawn</td>
       <td>Boolean</td>
@@ -694,6 +710,13 @@ The task can also echo to a file, in which case the option to append rather than
       <td>returnProperty</td>
       <td>String</td>
       <td>Property name to set return value to from exec() call.</td>
+      <td>n/a</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>outputProperty</td>
+      <td>String</td>
+      <td>Property name to set output value to from exec() call.</td>
       <td>n/a</td>
       <td>No</td>
     </tr>
@@ -760,14 +783,21 @@ Causes the current build script execution to fail and the script to exit with an
 </table>
 
 <h2><a name="ForeachTask"></a>ForeachTask</h2>
-<p>The foreach task iterates over a list, a list of paths, or both. If both, list
-  and paths, are specified, the list will be evaluated first. Nested paths are
+<p>The foreach task iterates over a list, a list of filesets, or both. If both, list
+  and filesets, are specified, the list will be evaluated first. Nested filesets are
   evaluated in the order they appear in the task.</p>
 <h3>Example</h3>
 <pre>
 &lt;!-- loop through languages, and call buildlang task with setted param --&gt;
 &lt;property name="languages" value="en,fr,de" /&gt;
 &lt;foreach list="${languages}" param="lang" target="buildlang" /&gt;
+
+&lt;!-- loop through files, and call subtask task with set param and absparam --&gt;
+&lt;foreach param=&quot;filename&quot; absparam=&quot;absfilename&quot; target="subtask"&gt;
+  &lt;fileset dir=&quot;.&quot;&gt;
+    &lt;include name=&quot;*.php&quot;/&gt;
+  &lt;/fileset&gt;
+&lt;/foreach&gt;
 </pre>
 <h3>Attributes</h3>
 <table>
@@ -805,6 +835,13 @@ Causes the current build script execution to fail and the script to exit with an
       <td>Yes</td>
     </tr>
     <tr>
+      <td>param</td>
+      <td>string</td>
+      <td>The name of the absolute pathparameter to pass the tokens in as to the target (used while processing nested filesets).</td>
+      <td>n/a</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
       <td>delimiter</td>
       <td>string</td>
       <td>The delimiter string that separates the values in the "list" parameter.
@@ -814,6 +851,11 @@ Causes the current build script execution to fail and the script to exit with an
     </tr>
   </tbody>
 </table>
+
+<h3>Supported Nested Tags</h3>
+<ul>
+  <li>Fileset</li>
+</ul>
 
 <h2><a name="IfTask"></a>IfTask</h2>
 <p>Perform some tasks based on whether a given condition holds true or not.</p>
@@ -1900,8 +1942,10 @@ These properties can be used in the build-file, for instance, to create time-sta
 <h2><a name="UpToDateTask"></a>UpToDateTask</h2>
 <p>UpToDateTask tests if a resource/file is set and sets a certain property
   to a certain value if it exists. </p>
-<pre title="Example of how to use AvailableTask">&lt;uptodate property=&quot;propelBuild.notRequired&quot; targetfile=&quot;${deploy}\propelClasses.tgz&quot; &gt;
-  &lt;srcfiles dir= &quot;${src}/propel&quot; includes=&quot;**/*.php&quot;/&gt;
+<pre title="Example of how to use AvailableTask">&lt;uptodate property=&quot;propelBuild.notRequired&quot; targetfile=&quot;${deploy}/propelClasses.tgz&quot; &gt;
+  &lt;fileset dir= &quot;${src}/propel&quot;&gt;
+    &lt;include=&quot;**/*.php&quot;/&gt;
+  &lt;/fileset&gt;
 &lt;/uptodate&gt;</pre>
 <p>sets the property <em>propelBuild.notRequired</em> to true if the <em>${deploy}/propelClasses.tgz</em>
   file is more up-to-date than any of the PHP class files in the <em>${src}/propel</em>
@@ -1937,7 +1981,7 @@ These properties can be used in the build-file, for instance, to create time-sta
       <td>String</td>
       <td> The file to check against target file(s).</td>
       <td>n/a</td>
-      <td>Yes (or nested <em>srcfiles</em>)</td>
+      <td>Yes (or nested <em>fileset</em>)</td>
     </tr>
     <tr>
       <td>targetfile</td>

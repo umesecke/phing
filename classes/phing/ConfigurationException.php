@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: BuildException.php 123 2006-09-14 20:19:08Z mrook $
+ *  $Id: ConfigurationException.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -23,7 +23,7 @@
  * ConfigurationException is thrown by Phing during the configuration and setup phase of the project.
  *
  * @author   Hans Lellelid <hans@xmpl.org>
- * @version  $Revision$
+ * @version  $Revision: 526 $
  * @package  phing
  */
 class ConfigurationException extends Exception {

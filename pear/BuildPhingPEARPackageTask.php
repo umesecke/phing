@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: BuildPhingPEARPackageTask.php 500 2009-07-31 18:35:35Z mrook $
+ *  $Id: BuildPhingPEARPackageTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@ include_once 'phing/tasks/ext/pearpackage/Fileset.php';
  *
  * @author   Hans Lellelid <hans@xmpl.org>
  * @package  phing.tasks.ext
- * @version  $Revision$
+ * @version  $Revision: 526 $
  */
 class BuildPhingPEARPackageTask extends MatchingTask {
 
@@ -173,7 +173,7 @@ etc.), file system operations, interactive build support, SQL execution, and muc
 		$package->setPearinstallerDep('1.4.0');
 		
 		// "package" dependencies
-		$package->addPackageDepWithChannel( 'optional', 'VersionControl_SVN', 'pear.php.net', '0.3.1');
+		$package->addPackageDepWithChannel( 'optional', 'VersionControl_SVN', 'pear.php.net', '0.3.2');
 		$package->addPackageDepWithChannel( 'optional', 'PHPUnit', 'pear.phpunit.de', '3.2.0');
 		$package->addPackageDepWithChannel( 'optional', 'PhpDocumentor', 'pear.php.net', '1.4.0');
 		$package->addPackageDepWithChannel( 'optional', 'Xdebug', 'pear.php.net', '2.0.5');

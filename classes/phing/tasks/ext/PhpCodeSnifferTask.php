@@ -1,6 +1,6 @@
 <?php
 /*
- *	$Id: PhpCodeSnifferTask.php 506 2009-08-01 11:25:08Z mrook $
+ *	$Id: PhpCodeSnifferTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -25,7 +25,7 @@ require_once 'phing/Task.php';
  * A PHP code sniffer task. Checking the style of one or more PHP source files.
  *
  * @author	Dirk Thomas <dirk.thomas@4wdmedia.de>
- * @version $Id: PhpCodeSnifferTask.php 506 2009-08-01 11:25:08Z mrook $
+ * @version $Id: PhpCodeSnifferTask.php 526 2009-08-11 12:11:17Z mrook $
  * @package	phing.tasks.ext
  */
 class PhpCodeSnifferTask extends Task {

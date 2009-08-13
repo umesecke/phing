@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: SimpleTestSummaryResultFormatter.php 325 2007-12-20 15:44:58Z hans $
+ * $Id: SimpleTestSummaryResultFormatter.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -25,7 +25,7 @@ require_once 'phing/tasks/ext/simpletest/SimpleTestResultFormatter.php';
  * Prints short summary output of the test to Phing's logging system.
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: SimpleTestSummaryResultFormatter.php 325 2007-12-20 15:44:58Z hans $
+ * @version $Id: SimpleTestSummaryResultFormatter.php 526 2009-08-11 12:11:17Z mrook $
  * @package phing.tasks.ext.simpletest
  * @since 2.2.0
  */

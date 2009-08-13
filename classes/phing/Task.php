@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Task.php 174 2007-03-12 21:01:37Z hans $
+ *  $Id: Task.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,7 +29,7 @@ include_once 'phing/RuntimeConfigurable.php';
  *
  * @author    Andreas Aderhold <andi@binarycloud.com>
  * @copyright � 2001,2002 THYRELL. All rights reserved
- * @version   $Revision: 1.11 $
+ * @version   $Revision: 526 $
  * @see       Project#createTask()
  * @package   phing
  */

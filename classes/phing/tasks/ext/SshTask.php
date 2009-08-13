@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: SshTask.php 488 2009-07-30 15:04:51Z mrook $
+ *  $Id: SshTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -25,7 +25,7 @@ require_once 'phing/Task.php';
  * Execute commands on a remote host using ssh.
  *
  * @author    Johan Van den Brande <johan@vandenbrande.com>
- * @version   $Id: SshTask.php 488 2009-07-30 15:04:51Z mrook $
+ * @version   $Id: SshTask.php 526 2009-08-11 12:11:17Z mrook $
  * @package   phing.tasks.ext
  */
 

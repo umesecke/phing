@@ -1,5 +1,5 @@
 <!--
--File         $Id: ProjectComponents.html 271 2007-10-28 16:42:36Z hans $
+-File         $Id: ProjectComponents.html 522 2009-08-11 09:07:53Z mrook $
 -License      GNU FDL (http://www.gnu.org/copyleft/fdl.html)
 -Copyright    2002, turing
 -Author       alex black, enigma@turingstudio.com
@@ -388,18 +388,6 @@ file.</p>
 shortcut semantics as the || operator in some programming languages, as soon as one of the
 nested conditions is true, no other condition will be evaluated.</p>
 
-<h4>available</h4>
-<p>This condition is identical to the <a
-href="appendixes/AppendixB-CoreTasks.html#AvailableTask">Available</a> task, all attributes and nested
-elements of that task are supported, the property and value attributes
-are redundant and will be ignored.</p>
-
-<h4>uptodate</h4>
-<p>This condition is identical to the <a
-href="appendixes/AppendixB-CoreTasks.html#UpToDateTask">UpToDate</a> task, all attributes and nested
-elements of that task are supported, the property and value attributes
-are redundant and will be ignored.</p>
-
 <h4>os</h4>
 <p>Test whether the current operating system is of a given type.</p>
 
@@ -533,6 +521,25 @@ are redundant and will be ignored.</p>
 <pre>
     &lt;isfalse value=&quot;${someproperty}&quot;/&gt;
     &lt;isfalse value=&quot;false&quot;/&gt;
+</pre>
+
+<h4>referenceexists</h4>
+<p>Tests whether a specified reference exists.
+</p>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td align="center" valign="top"><b>Required</b></td>
+  </tr>
+  <tr>
+    <td valign="top">ref</td>
+    <td valign="top">reference to test for</td>
+    <td valign="top" align="center">Yes</td>
+  </tr>
+</table>
+<pre>
+    &lt;referenceexists ref=&quot;${someid}&quot;/&gt;
 </pre>
 
 </body>

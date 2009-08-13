@@ -1,6 +1,6 @@
 <?php
 /* 
- *  $Id: MergeMapper.php 123 2006-09-14 20:19:08Z mrook $
+ *  $Id: MergeMapper.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,7 +26,7 @@ include_once 'phing/mappers/FileNameMapper.php';
  * was set for "to".
  *
  * @author    Andreas Aderhold <andi@binarycloud.com>
- * @version   $Revision: 1.8 $
+ * @version   $Revision: 526 $
  * @package   phing.mappers
  */
 class MergeMapper implements FileNameMapper {

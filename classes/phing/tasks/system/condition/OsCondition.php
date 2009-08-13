@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: OsCondition.php 43 2006-03-10 14:31:51Z mrook $
+ *  $Id: OsCondition.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,7 +26,7 @@ require_once 'phing/tasks/system/condition/ConditionBase.php';
  *
  *  @author    Andreas Aderhold <andi@binarycloud.com>
  *  @copyright © 2001,2002 THYRELL. All rights reserved
- *  @version   $Revision: 1.8 $ $Date: 2006-03-10 15:31:51 +0100 (Fr, 10. MÃ¤r 2006) $
+ *  @version   $Revision: 526 $ $Date: 2009-08-11 14:11:17 +0200 (Di, 11. Aug 2009) $
  *  @access    public
  *  @package   phing.tasks.system.condition
  */

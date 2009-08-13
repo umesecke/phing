@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  $Id: ReplaceRegexp.php 325 2007-12-20 15:44:58Z hans $
+ *  $Id: ReplaceRegexp.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -36,7 +36,7 @@ include_once 'phing/types/RegularExpression.php';
  * </pre>
  *
  * @author    Hans Lellelid <hans@xmpl.org>
- * @version   $Revision: 1.5 $
+ * @version   $Revision: 526 $
  * @package   phing.filters
  */
 class ReplaceRegexp extends BaseFilterReader implements ChainableReader {

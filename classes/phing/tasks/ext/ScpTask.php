@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: ScpTask.php 488 2009-07-30 15:04:51Z mrook $
+ *  $Id: ScpTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -25,7 +25,7 @@ require_once 'phing/Task.php';
  * Copy files to and from a remote host using scp.
  *
  * @author    Johan Van den Brande <johan@vandenbrande.com>
- * @version   $Id: ScpTask.php 488 2009-07-30 15:04:51Z mrook $
+ * @version   $Id: ScpTask.php 526 2009-08-11 12:11:17Z mrook $
  * @package   phing.tasks.ext
  */
 

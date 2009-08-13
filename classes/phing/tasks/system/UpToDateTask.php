@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: UpToDateTask.php 144 2007-02-05 15:19:00Z hans $
+ * $Id: UpToDateTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,7 +33,7 @@ include_once 'phing/mappers/MergeMapper.php';
  * @author    William Ferguson <williamf@mincom.com> (Ant)
  * @author    Hiroaki Nakamura <hnakamur@mc.neweb.ne.jp> (Ant)
  * @author    Stefan Bodewig <stefan.bodewig@epost.de> (Ant)
- * @version   $Revision: 1.6 $
+ * @version   $Revision: 526 $
  * @package   phing.tasks.system
  */
 class UpToDateTask extends Task implements Condition {
@@ -101,6 +101,8 @@ class UpToDateTask extends Task implements Condition {
 
     /**
      * Nested <srcfiles> element.
+     *
+     * @deprecated Deprecated since Phing 2.4.0
      */
     public function createSrcfiles() {
         $fs = new FileSet();
@@ -108,6 +110,15 @@ class UpToDateTask extends Task implements Condition {
         return $fs;
     }
 
+    /**
+     * Nested <fileset> element.
+     */
+    public function createFileset() {
+        $fs = new FileSet();
+        $this->sourceFileSets[] = $fs;
+        return $fs;
+    }
+    
     /**
      * Defines the FileNameMapper to use (nested mapper element).
      */
@@ -128,12 +139,12 @@ class UpToDateTask extends Task implements Condition {
     public function evaluate() {
         if (count($this->sourceFileSets) === 0 && $this->_sourceFile === null) {
             throw new BuildException("At least one srcfile or a nested "
-                                     . "<srcfiles> element must be set.");
+                                     . "<fileset> element must be set.");
         }
 
         if (count($this->sourceFileSets) > 0 && $this->_sourceFile !== null) {
             throw new BuildException("Cannot specify both the srcfile "
-                                     . "attribute and a nested <srcfiles> "
+                                     . "attribute and a nested <fileset> "
                                      . "element.");
         }
 

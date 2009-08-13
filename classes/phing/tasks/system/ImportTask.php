@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: ImportTask.php 370 2008-05-27 20:44:31Z bender $
+ *  $Id: ImportTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -39,7 +39,7 @@ require_once 'phing/parser/ProjectConfigurator.php';
  * dependencies or via the <phing> or <phingcall> task mechanisms.
  *
  * @author Bryan Davis <bpd@keynetics.com>
- * @version $Revision: 370 $
+ * @version $Revision: 526 $
  * @package phing.tasks.system
  */
 class ImportTask extends Task {

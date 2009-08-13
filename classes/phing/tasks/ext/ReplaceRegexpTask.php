@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: ReplaceRegexpTask.php 488 2009-07-30 15:04:51Z mrook $  
+ *  $Id: ReplaceRegexpTask.php 526 2009-08-11 12:11:17Z mrook $  
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,7 +33,7 @@ require_once 'phing/Task.php';
  * </code>
  * 
  * @author    Jonathan Bond-Caron <jbondc@openmv.com>
- * @version   $Id: ReplaceRegexpTask.php 488 2009-07-30 15:04:51Z mrook $
+ * @version   $Id: ReplaceRegexpTask.php 526 2009-08-11 12:11:17Z mrook $
  * @package   phing.tasks.system
  * @see 	  <http://ant.apache.org/manual/OptionalTasks/replaceregexp.html>
  */

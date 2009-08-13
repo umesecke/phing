@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: CoverageSetupTask.php 426 2008-10-28 19:29:49Z mrook $
+ * $Id: CoverageSetupTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,7 +29,7 @@ require_once 'phing/tasks/ext/coverage/CoverageMerger.php';
  * Initializes a code coverage database
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: CoverageSetupTask.php 426 2008-10-28 19:29:49Z mrook $
+ * @version $Id: CoverageSetupTask.php 526 2009-08-11 12:11:17Z mrook $
  * @package phing.tasks.ext.coverage
  * @since 2.1.0
  */

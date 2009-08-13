@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: PhpEvalTask.php 144 2007-02-05 15:19:00Z hans $
+ *  $Id: PhpEvalTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,7 +29,7 @@ require_once 'phing/Task.php';
  *        modify internal Phing classes unless you know what you are doing.
  *
  * @author   Hans Lellelid <hans@xmpl.org>
- * @version  $Revision: 1.7 $
+ * @version  $Revision: 526 $
  * @package  phing.tasks.system
  *
  * @todo Add support for evaluating expressions

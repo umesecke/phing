@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: PropertyPromptTask.php 272 2007-10-30 23:06:04Z hans $
+ *  $Id: PropertyPromptTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -31,7 +31,7 @@ include_once 'phing/system/io/ConsoleReader.php';
  * 
  * @author    Hans Lellelid <hans@xmpl.org> (Phing)
  * @author    Anthony J. Young-Garner <ajyoung@alum.mit.edu> (Ant)
- * @version   $Revision: 1.4 $
+ * @version   $Revision: 526 $
  * @package   phing.tasks.system
  * @deprecated - in favor of the more capable InputTask
  */ 

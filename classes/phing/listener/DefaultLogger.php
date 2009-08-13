@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: DefaultLogger.php 279 2007-11-01 20:11:07Z hans $
+ *  $Id: DefaultLogger.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -30,7 +30,7 @@ include_once 'phing/BuildEvent.php';
  *
  *  @author    Andreas Aderhold <andi@binarycloud.com>
  *  @copyright � 2001,2002 THYRELL. All rights reserved
- *  @version   $Revision: 1.11 $ $Date: 2007-11-01 21:11:07 +0100 (Do, 01. Nov 2007) $
+ *  @version   $Revision: 526 $ $Date: 2009-08-11 14:11:17 +0200 (Di, 11. Aug 2009) $
  *  @see       BuildEvent
  *  @package   phing.listener
  */
@@ -183,7 +183,8 @@ class DefaultLogger implements StreamRequiredBuildLogger {
      */
     public function targetStarted(BuildEvent $event) {
         if (Project::MSG_INFO <= $this->msgOutputLevel) {
-        	$msg = PHP_EOL . $event->getProject()->getName() . ' > ' . $event->getTarget()->getName() . ':' . PHP_EOL;
+			$showLongTargets = $event->getProject()->getProperty("phing.showlongtargets");
+        	$msg = PHP_EOL . $event->getProject()->getName() . ' > ' . $event->getTarget()->getName() . ($showLongTargets ? ' [' . $event->getTarget()->getDescription() . ']' : '') . ':' . PHP_EOL;
         	$this->printMessage($msg, $this->out, $event->getPriority());
         }
     }

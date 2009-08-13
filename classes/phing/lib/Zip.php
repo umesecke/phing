@@ -16,7 +16,7 @@
 // | Author: Vincent Blavet <vincent@blavet.net>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: Zip.php 372 2008-05-28 04:27:04Z bender $
+// $Id: Zip.php 526 2009-08-11 12:11:17Z mrook $
 
   // ----- Constants
   define( 'ARCHIVE_ZIP_READ_BLOCK_SIZE', 2048 );
@@ -86,7 +86,7 @@
 * It provides creation, extraction, deletion and add features.
 *
 * @author   Vincent Blavet <vincent@blavet.net>
-* @version  $Revision: 1.3 $
+* @version  $Revision: 526 $
 * @package  phing.lib
 */
 class Archive_Zip

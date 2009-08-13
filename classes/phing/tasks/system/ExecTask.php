@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  $Id: ExecTask.php 334 2008-01-04 14:25:20Z hans $
+ *  $Id: ExecTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@ require_once 'phing/Task.php';
  *
  * @author   Andreas Aderhold <andi@binarycloud.com>
  * @author   Hans Lellelid <hans@xmpl.org>
- * @version  $Revision: 1.17 $
+ * @version  $Revision: 526 $
  * @package  phing.tasks.system
  */
 class ExecTask extends Task {
@@ -63,10 +63,16 @@ class ExecTask extends Task {
 	protected $output;
 
 	/**
-	 * Whether to passthru the output
+	 * Whether to use PHP's passthru() function instead of exec()
 	 * @var boolean
 	 */
 	protected $passthru = false;
+
+	/**
+	 * Whether to log returned output as MSG_INFO instead of MSG_VERBOSE
+	 * @var boolean
+	 */
+	protected $logOutput = false;
 
 	/**
 	 * Where to direct error output.
@@ -86,6 +92,13 @@ class ExecTask extends Task {
 	 * @var string
 	 */
 	protected $returnProperty;
+
+	/**
+	 * Property name to set with output value from exec call.
+	 *
+	 * @var string
+	 */
+	protected $outputProperty;
 
 	/**
 	 * Whether to check the return code.
@@ -162,18 +175,30 @@ class ExecTask extends Task {
 
 		$output = array();
 		$return = null;
-		exec($this->command, $output, $return);
+		
+		if ($this->passthru)
+		{
+			passthru($this->command, $return);
+		}
+		else
+		{
+			exec($this->command, $output, $return);
+		}
 
 		if ($this->dir !== null) {
 			@chdir($currdir);
 		}
 
 		foreach($output as $line) {
-			$this->log($line,  ($this->passthru ? Project::MSG_INFO : Project::MSG_VERBOSE));
+			$this->log($line,  ($this->logOutput ? Project::MSG_INFO : Project::MSG_VERBOSE));
 		}
 
 		if ($this->returnProperty) {
 			$this->project->setProperty($this->returnProperty, $return);
+		}
+
+		if ($this->outputProperty) {
+			$this->project->setProperty($this->outputProperty, implode("\n", $output));
 		}
 
 		if($return != 0 && $this->checkreturn) {
@@ -232,11 +257,19 @@ class ExecTask extends Task {
 	}
 
 	/**
-	 * Whether to use passthru the output.
+	 * Whether to use PHP's passthru() function instead of exec()
 	 * @param boolean $passthru
 	 */
 	function setPassthru($passthru) {
 		$this->passthru = (bool) $passthru;
+	}
+
+	/**
+	 * Whether to log returned output as MSG_INFO instead of MSG_VERBOSE
+	 * @param boolean $passthru
+	 */
+	function setLogoutput($logOutput) {
+		$this->logOutput = (bool) $logOutput;
 	}
 
 	/**
@@ -261,6 +294,14 @@ class ExecTask extends Task {
 	 */
 	function setReturnProperty($prop) {
 		$this->returnProperty = $prop;
+	}
+
+	/**
+	 * The name of property to set to output value from exec() call.
+	 * @param string $prop
+	 */
+	function setOutputProperty($prop) {
+		$this->outputProperty = $prop;
 	}
 }
 

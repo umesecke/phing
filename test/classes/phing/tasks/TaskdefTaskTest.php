@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: TaskdefTaskTest.php 367 2008-05-18 17:14:13Z bender $
+ *  $Id: TaskdefTaskTest.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -22,7 +22,7 @@
 require_once 'phing/BuildFileTest.php';
 
 /**
- * @version $Revision: 367 $
+ * @version $Revision: 526 $
  */
 class TaskdefTaskTest extends BuildFileTest { 
         

@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: BuildLogger.php 372 2008-05-28 04:27:04Z bender $
+ *  $Id: BuildLogger.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -31,7 +31,7 @@ require_once 'phing/BuildListener.php';
  * Classes that implement a listener must implement this interface.
  *
  * @author    Hans Lellelid <hans@xmpl.org>
- * @version   $Revision: 1.6 $
+ * @version   $Revision: 526 $
  * @see       BuildEvent
  * @see       Project::addBuildListener()
  * @package   phing
