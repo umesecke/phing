@@ -140,6 +140,35 @@ class SelectorUtils {
         $rePattern = '/^'.$rePattern.'$/'.($isCaseSensitive ? '' : 'i');
         return preg_match($rePattern, $str);
     }
+    
+    /**
+     * Returns paths, that are matching a given pattern.
+     *
+     * @param pattern The pattern to match against. Must not be
+     *                <code>null</code>.
+     * @param paths   The paths to match, as an Array. Must not be
+     *                <code>null</code>.
+     * @param isCaseSensitive Whether or not matching should be performed
+     *                        case sensitively.
+     *
+     * @return Array with the paths matching against the pattern.
+     * 
+     * @author Uwe Mesecke <uwe@mesecke.net>
+     */
+    public static function getMatchingPaths($pattern, array $paths, $isCaseSensitive = true) {
+    
+        $rePattern = preg_quote($pattern, '/');
+        $dirSep = preg_quote(DIRECTORY_SEPARATOR, '/');
+        $patternReplacements = array(
+            '\*\*'.$dirSep => '.*',
+            '\*\*' => '.*',
+            '\*' => '[^'.$dirSep.']*',
+            '\?' => '[^'.$dirSep.']'
+        );
+        $rePattern = str_replace(array_keys($patternReplacements), array_values($patternReplacements), $rePattern);
+        $rePattern = '/^'.$rePattern.'$/'.($isCaseSensitive ? '' : 'i');
+        return preg_grep($rePattern, $paths);
+    }
 
     /**
      * Tests whether or not a string matches against a pattern.

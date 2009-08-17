@@ -220,6 +220,19 @@ class DirectoryScanner implements SelectorScanner {
     }
 
     /**
+     * Matches an array of paths against a pattern. Static
+     *
+     * @param pattern            the (non-null) pattern to match against
+     * @param paths              the (non-null) array (paths) to match
+     * @param isCaseSensitive    must a case sensitive match be done?
+     *
+     * @return Array with the matching paths.
+     */
+    function getMatchingPaths($pattern, array $paths, $isCaseSensitive = true) {
+        return SelectorUtils::getMatchingPaths($pattern, $paths, $isCaseSensitive);
+    }
+
+    /**
      * Matches a string against a pattern. The pattern contains two special
      * characters:
      * '*' which means zero or more characters,
