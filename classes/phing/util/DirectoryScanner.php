@@ -376,6 +376,9 @@ class DirectoryScanner implements SelectorScanner {
         }
 
         $this->scandir($this->basedir, "", true);
+        
+        $this->haveSlowResults = true;
+        
         return true;
     }
 
