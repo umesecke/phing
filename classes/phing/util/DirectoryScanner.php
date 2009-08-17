@@ -453,68 +453,112 @@ class DirectoryScanner implements SelectorScanner {
         
         if (!is_readable($_rootdir)) {
             return;
-        }                                
+        }
         
-        $newfiles = self::listDir($_rootdir);
+        $allFiles = array();
+        $allDirs = array();
+        $todo = array('');
         
-        for ($i=0,$_i=count($newfiles); $i < $_i; $i++) {
+        // first scan the whole tree
+        while (!empty($todo)) {
+            $relBase = array_shift($todo);
+            if ($relBase != '') {
+                $relBase .= DIRECTORY_SEPARATOR;
+            }
+            $absBase = $_rootdir . DIRECTORY_SEPARATOR . $relBase;
+            $newfiles = self::listDir($absBase);
             
-            $file = $_rootdir . DIRECTORY_SEPARATOR . $newfiles[$i];
-            $name = $_vpath . $newfiles[$i];
-
-            if (@is_dir($file)) {
-                if ($this->isIncluded($name)) {
-                    if (!$this->isExcluded($name)) {
-                        if ($this->isSelected($name, $file)) {
-                            $this->dirsIncluded[] = $name;
-                            if ($_fast) {
-                                $this->scandir($file, $name.DIRECTORY_SEPARATOR, $_fast);
-                            }
-                        } else {
-                            $this->everythingIncluded = false;
-                            $this->dirsDeselected[] = $name;
-                            if ($_fast && $this->couldHoldIncluded($name)) {
-                                $this->scandir($file, $name.DIRECTORY_SEPARATOR, $_fast);
-                            }                            
-                        }                                                
-                    } else {
-                        $this->everythingIncluded = false;
-                        $this->dirsExcluded[] = $name;
-                        if ($_fast && $this->couldHoldIncluded($name)) {
-                            $this->scandir($file, $name.DIRECTORY_SEPARATOR, $_fast);
-                        }
-                    }
-                } else {
-                    $this->everythingIncluded = false;
-                    $this->dirsNotIncluded[] = $name;
-                    if ($_fast && $this->couldHoldIncluded($name)) {
-                        $this->scandir($file, $name.DIRECTORY_SEPARATOR, $_fast);
-                    }
-                }
+            foreach ($newfiles as $file) {
+                $fullPath = $absBase . $file;
+                $relPath = $relBase . $file;
                 
-                if (!$_fast) {
-                    $this->scandir($file, $name.DIRECTORY_SEPARATOR, $_fast);
-                }
-                
-            } elseif (@is_file($file)) {
-                if ($this->isIncluded($name)) {
-                    if (!$this->isExcluded($name)) {
-                        if ($this->isSelected($name, $file)) {
-                            $this->filesIncluded[] = $name;
-                        } else {
-                            $this->everythingIncluded = false;
-                            $this->filesDeselected[] = $name;
-                        }                        
-                    } else {
-                        $this->everythingIncluded = false;
-                        $this->filesExcluded[] = $name;
-                    }
-                } else {
-                    $this->everythingIncluded = false;
-                    $this->filesNotIncluded[] = $name;
+                if (@is_dir($fullPath)) {
+                    $todo[] = $relPath;
+                    $allDirs[] = $relPath;
+                } elseif (@is_file($fullPath)) {
+                    $allFiles[] = $relPath;
                 }
             }
         }
+        
+        // exclude files
+        $excluded = array();
+        foreach ($this->excludes as $pattern) {
+            $matching = DirectoryScanner::getMatchingPaths($pattern, $allFiles, $this->isCaseSensitive);
+            if (!empty($matching)) {
+                $excluded = array_merge($excluded, $matching);
+                $allFiles = array_diff($allFiles, $matching);
+            }
+        }
+        if (!empty($excluded)) {
+            $this->filesExcluded = $excluded;
+        }
+        
+        // deselect files
+        if ($this->selectors !== null and !empty($this->selectors)) {
+            $basedir = new PhingFile($this->basedir);
+            $deselected = array();
+            foreach ($allFiles as $file) {
+                $path = $_rootDir . DIRECTORY_SEPARATOR . $file;
+                $name = $_vpath . $file;
+                $pfile = new PhingFile($path);
+                foreach ($this->selectors as $selector) {
+                    if (!$selector->isSelected($basedir, $name, $pfile)) {
+                        $deselected[] = $file;
+                        break;
+                    }
+                }
+            }
+            
+            if (!empty($deselected)) {
+                $this->everythingIncluded = false;
+                $this->filesDeselected = $deselected;
+            }
+        }
+        
+        // include files
+        $remainingFiles = $allFiles;
+        $included = array();
+        foreach ($this->includes as $pattern) {
+            $matching = DirectoryScanner::getMatchingPaths($pattern, $allFiles, $this->isCaseSensitive);
+            if (!empty($matching)) {
+                $included = array_merge($included, $matching);
+                $allFiles = array_diff($allFiles, $matching);
+            }
+        }
+        $this->filesIncluded = $included;
+        $this->filesNotIncluded = $allFiles;
+        if (count($remainingFiles) != count($included)) {
+            $this->everythingIncluded = false;
+        }
+        
+        // calculate included directories from included files
+        $dirs = array();
+        foreach ($included as $file) {
+            $pos = strrpos($file, DIRECTORY_SEPARATOR);
+            if ($pos === false) {
+                continue;
+            }
+            $dir = substr($file, 0, $pos);
+            if ($dir !== "" and !in_array($dir, $dirs)) {
+                $dirs[] = $dir;
+            }
+        }
+        $this->dirsIncluded = $dirs;
+        $allDirs = array_diff($allDirs, $dirs);
+        
+        // match remaining dirs against exclude patterns
+        $dirs = array();
+        foreach ($this->excludes as $pattern) {
+            $matching = DirectoryScanner::getMatchingPaths($pattern, $allDirs, $this->isCaseSensitive);
+            if (!empty($matching)) {
+                $dirs = array_merge($dirs, $matching);
+                $allDirs = array_diff($allDirs, $matching);
+            }
+        }
+        $this->dirsExcluded = $dirs;
+        
+        $this->dirsNotIncluded = $allDirs;
     }
 
     /**
