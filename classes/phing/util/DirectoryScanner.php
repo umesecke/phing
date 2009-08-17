@@ -494,6 +494,7 @@ class DirectoryScanner implements SelectorScanner {
             }
         }
         if (!empty($excluded)) {
+            $this->everythingIncluded = false;
             $this->filesExcluded = $excluded;
         }
         
